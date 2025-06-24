@@ -1,0 +1,11 @@
+D:\edutrack\EduTrack.Domain\obj\Debug\net7.0\EduTrack.Domain.GeneratedMSBuildEditorConfig.editorconfig
+D:\edutrack\EduTrack.Domain\obj\Debug\net7.0\EduTrack.Domain.AssemblyInfoInputs.cache
+D:\edutrack\EduTrack.Domain\obj\Debug\net7.0\EduTrack.Domain.AssemblyInfo.cs
+D:\edutrack\EduTrack.Domain\obj\Debug\net7.0\EduTrack.Domain.csproj.CoreCompileInputs.cache
+D:\edutrack\EduTrack.Domain\bin\Debug\net7.0\EduTrack.Domain.deps.json
+D:\edutrack\EduTrack.Domain\bin\Debug\net7.0\EduTrack.Domain.dll
+D:\edutrack\EduTrack.Domain\bin\Debug\net7.0\EduTrack.Domain.pdb
+D:\edutrack\EduTrack.Domain\obj\Debug\net7.0\EduTrack.Domain.dll
+D:\edutrack\EduTrack.Domain\obj\Debug\net7.0\refint\EduTrack.Domain.dll
+D:\edutrack\EduTrack.Domain\obj\Debug\net7.0\EduTrack.Domain.pdb
+D:\edutrack\EduTrack.Domain\obj\Debug\net7.0\ref\EduTrack.Domain.dll

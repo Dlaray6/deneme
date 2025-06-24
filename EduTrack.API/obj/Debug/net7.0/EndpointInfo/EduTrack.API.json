@@ -1,0 +1,625 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "EduTrack.API",
+    "version": "1.0"
+  },
+  "paths": {
+    "/api/Class/{id}": {
+      "get": {
+        "tags": [
+          "Class"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Class/school/{schoolId}": {
+      "get": {
+        "tags": [
+          "Class"
+        ],
+        "parameters": [
+          {
+            "name": "schoolId",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Class/add": {
+      "post": {
+        "tags": [
+          "Class"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClassRoom"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClassRoom"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClassRoom"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Class/assign": {
+      "post": {
+        "tags": [
+          "Class"
+        ],
+        "parameters": [
+          {
+            "name": "classId",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Class/users/{classId}": {
+      "get": {
+        "tags": [
+          "Class"
+        ],
+        "parameters": [
+          {
+            "name": "classId",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Note/add": {
+      "post": {
+        "tags": [
+          "Note"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Note"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Note"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Note"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Note/update": {
+      "put": {
+        "tags": [
+          "Note"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Note"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Note"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Note"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Note/by-student/{studentId}": {
+      "get": {
+        "tags": [
+          "Note"
+        ],
+        "parameters": [
+          {
+            "name": "studentId",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Note/by-lesson/{lessonId}": {
+      "get": {
+        "tags": [
+          "Note"
+        ],
+        "parameters": [
+          {
+            "name": "lessonId",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/User/register": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/User/{tcNo}": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "name": "tcNo",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/User/role/{role}": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "name": "role",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/User/check-password": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PasswordCheckRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PasswordCheckRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PasswordCheckRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ClassLesson": {
+        "type": "object",
+        "properties": {
+          "classRoomId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "classRoom": {
+            "$ref": "#/components/schemas/ClassRoom"
+          },
+          "lessonId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "lesson": {
+            "$ref": "#/components/schemas/Lesson"
+          },
+          "teacherClassLessons": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TeacherClassLesson"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ClassRoom": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "grade": {
+            "type": "string",
+            "nullable": true
+          },
+          "branch": {
+            "type": "string",
+            "nullable": true
+          },
+          "schoolId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "school": {
+            "$ref": "#/components/schemas/School"
+          },
+          "classUsers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ClassUser"
+            },
+            "nullable": true
+          },
+          "classLessons": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ClassLesson"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ClassUser": {
+        "type": "object",
+        "properties": {
+          "classRoomId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "classRoom": {
+            "$ref": "#/components/schemas/ClassRoom"
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          },
+          "notes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Note"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Lesson": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "classLessons": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ClassLesson"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Note": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "classUserClassId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "classUserUserId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "classUser": {
+            "$ref": "#/components/schemas/ClassUser"
+          },
+          "classLessonClassId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "classLessonLessonId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "classLesson": {
+            "$ref": "#/components/schemas/ClassLesson"
+          },
+          "score": {
+            "type": "number",
+            "format": "float"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PasswordCheckRequest": {
+        "type": "object",
+        "properties": {
+          "tcNo": {
+            "type": "string",
+            "nullable": true
+          },
+          "password": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "School": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "accessCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "classes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ClassRoom"
+            },
+            "nullable": true
+          },
+          "users": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/User"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TeacherClassLesson": {
+        "type": "object",
+        "properties": {
+          "teacherId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "classRoomId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "lessonId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "teacher": {
+            "$ref": "#/components/schemas/User"
+          },
+          "class": {
+            "$ref": "#/components/schemas/ClassRoom"
+          },
+          "lesson": {
+            "$ref": "#/components/schemas/Lesson"
+          }
+        },
+        "additionalProperties": false
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "tcNo": {
+            "type": "string",
+            "nullable": true
+          },
+          "password": {
+            "type": "string",
+            "nullable": true
+          },
+          "role": {
+            "type": "string",
+            "nullable": true
+          },
+          "schoolId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "school": {
+            "$ref": "#/components/schemas/School"
+          },
+          "classUsers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ClassUser"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

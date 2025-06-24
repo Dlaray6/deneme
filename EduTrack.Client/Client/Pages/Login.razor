@@ -1,0 +1,101 @@
+﻿@page "/login"
+@inject HttpClient Http
+@inject NavigationManager Navigation
+@inject IJSRuntime JS
+
+<h3>Giriş Yap</h3>
+
+<div class="mb-3">
+    <label for="tcInput" class="form-label">TC Kimlik No</label>
+    <input @bind="tc" id="tcInput" class="form-control" />
+</div>
+
+<div class="mb-3">
+    <label for="passwordInput" class="form-label">Şifre</label>
+    <input @bind="password" type="password" id="passwordInput" class="form-control" />
+</div>
+
+<button class="btn btn-primary" @onclick="DoLogin">Giriş Yap</button>
+
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <div class="alert alert-danger mt-3">@errorMessage</div>
+}
+
+@code {
+    private string tc = "";
+    private string password = "";
+    private string errorMessage = "";
+
+    private async Task DoLogin()
+    {
+        errorMessage = "";
+
+        var loginDto = new { TcNo = tc, Password = password };
+        try
+        {
+            var response = await Http.PostAsJsonAsync("api/auth/login", loginDto);
+            if (response.IsSuccessStatusCode)
+            {
+                var result = await response.Content.ReadFromJsonAsync<LoginResponse>();
+                if (result != null && !string.IsNullOrEmpty(result.Token))
+                {
+                    await JS.InvokeVoidAsync("localStorage.setItem", "authToken", result.Token);
+
+                    var role = ParseJwtRole(result.Token);
+                    if (role == "Idare")
+                        Navigation.NavigateTo("/admin");
+                    else if (role == "Teacher")
+                        Navigation.NavigateTo("/teacher");
+                    else if (role == "Student")
+                        Navigation.NavigateTo("/student");
+                    else
+                        Navigation.NavigateTo("/");
+                }
+                else
+                {
+                    errorMessage = "Token alınamadı.";
+                }
+            }
+            else
+            {
+                errorMessage = "Giriş başarısız. Bilgileri kontrol edin.";
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = "Hata oluştu: " + ex.Message;
+        }
+    }
+
+    private string ParseJwtRole(string token)
+    {
+        try
+        {
+            var payload = token.Split('.')[1];
+            var json = System.Text.Encoding.UTF8.GetString(ParseBase64WithoutPadding(payload));
+            using var doc = System.Text.Json.JsonDocument.Parse(json);
+            if (doc.RootElement.TryGetProperty("role", out var roleProp))
+            {
+                return roleProp.GetString() ?? "";
+            }
+        }
+        catch { }
+        return "";
+    }
+
+    private byte[] ParseBase64WithoutPadding(string base64)
+    {
+        switch (base64.Length % 4)
+        {
+            case 2: base64 += "=="; break;
+            case 3: base64 += "="; break;
+        }
+        return Convert.FromBase64String(base64);
+    }
+
+    private class LoginResponse
+    {
+        public string Token { get; set; } = "";
+    }
+}

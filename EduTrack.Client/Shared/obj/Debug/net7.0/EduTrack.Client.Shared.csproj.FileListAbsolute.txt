@@ -1,0 +1,11 @@
+D:\edutrack\EduTrack.Client\Shared\bin\Debug\net7.0\EduTrack.Client.Shared.deps.json
+D:\edutrack\EduTrack.Client\Shared\bin\Debug\net7.0\EduTrack.Client.Shared.dll
+D:\edutrack\EduTrack.Client\Shared\bin\Debug\net7.0\EduTrack.Client.Shared.pdb
+D:\edutrack\EduTrack.Client\Shared\obj\Debug\net7.0\EduTrack.Client.Shared.GeneratedMSBuildEditorConfig.editorconfig
+D:\edutrack\EduTrack.Client\Shared\obj\Debug\net7.0\EduTrack.Client.Shared.AssemblyInfoInputs.cache
+D:\edutrack\EduTrack.Client\Shared\obj\Debug\net7.0\EduTrack.Client.Shared.AssemblyInfo.cs
+D:\edutrack\EduTrack.Client\Shared\obj\Debug\net7.0\EduTrack.Client.Shared.csproj.CoreCompileInputs.cache
+D:\edutrack\EduTrack.Client\Shared\obj\Debug\net7.0\EduTrack.Client.Shared.dll
+D:\edutrack\EduTrack.Client\Shared\obj\Debug\net7.0\refint\EduTrack.Client.Shared.dll
+D:\edutrack\EduTrack.Client\Shared\obj\Debug\net7.0\EduTrack.Client.Shared.pdb
+D:\edutrack\EduTrack.Client\Shared\obj\Debug\net7.0\ref\EduTrack.Client.Shared.dll
