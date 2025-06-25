@@ -9,6 +9,7 @@ D:\edutrack\EduTrack.API\bin\Debug\net7.0\EduTrack.API.pdb
 D:\edutrack\EduTrack.API\bin\Debug\net7.0\Azure.Core.dll
 D:\edutrack\EduTrack.API\bin\Debug\net7.0\Azure.Identity.dll
 D:\edutrack\EduTrack.API\bin\Debug\net7.0\Humanizer.dll
+D:\edutrack\EduTrack.API\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 D:\edutrack\EduTrack.API\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.Negotiate.dll
 D:\edutrack\EduTrack.API\bin\Debug\net7.0\Microsoft.AspNetCore.Connections.Abstractions.dll
 D:\edutrack\EduTrack.API\bin\Debug\net7.0\Microsoft.AspNetCore.OpenApi.dll
@@ -89,4 +90,4 @@ D:\edutrack\EduTrack.API\obj\Debug\net7.0\refint\EduTrack.API.dll
 D:\edutrack\EduTrack.API\obj\Debug\net7.0\EduTrack.API.pdb
 D:\edutrack\EduTrack.API\obj\Debug\net7.0\EduTrack.API.genruntimeconfig.cache
 D:\edutrack\EduTrack.API\obj\Debug\net7.0\ref\EduTrack.API.dll
-D:\edutrack\EduTrack.API\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\edutrack\EduTrack.API\obj\Debug\net7.0\staticwebassets.upToDateCheck.txt

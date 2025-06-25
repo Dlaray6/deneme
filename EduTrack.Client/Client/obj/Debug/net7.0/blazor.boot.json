@@ -1,7 +1,7 @@
 {
   "entryAssembly": "EduTrack.Client.Client",
   "resources": {
-    "hash": "sha256-QWZKRekEraz1Ij/gHBEuTzZp/wA6FJ6VzHIeFoReFBY=",
+    "hash": "sha256-6q44/A/1uRW1zhteXCQcA8Ua2SZJK5rufRnwYQ5htIs=",
     "runtime": {
       "dotnet.js": "sha256-eaJTmow4t8eE7FZMZR5Ja41JMOefGCbIYDTdpclGsac=",
       "dotnet.timezones.blat": "sha256-gbATD5HDsHYtW8vdPYh9iSBY4O5CjvMeCSF5xXWF1xo=",
@@ -28,7 +28,6 @@
       "Microsoft.Extensions.FileProviders.Abstractions.dll": "sha256-Zt6OY6gg/1Tzt9oFOQBkezPvUVkFK4dyM6Pfk+MTUvg=",
       "Microsoft.Extensions.FileProviders.Physical.dll": "sha256-9xkIbIienaRj9Td2MyWYzL9JmVx6CKbGCPrvJ1Pxfn8=",
       "Microsoft.Extensions.FileSystemGlobbing.dll": "sha256-Gm0yiS5fySh2nZXdCRKZIbASK8sSukwjogLc+a9EBZY=",
-      "Microsoft.Extensions.Http.dll": "sha256-QqjUvBFxKOeh8XX3IrmuIesFycYZMmwrhsRakmXvrXE=",
       "Microsoft.Extensions.Logging.dll": "sha256-WMsuY8rhtg+vvssGFSR7ZLKhqYPAzOi538IXMoiJ6bI=",
       "Microsoft.Extensions.Logging.Abstractions.dll": "sha256-7mzUlhcvGxpAVO4h/Tka7P/8IXF9ZsHkGt0fp5aufkU=",
       "Microsoft.Extensions.Options.dll": "sha256-gcHJrSv1wTqvF9SyWTEKcbiShn4mkgfnm9+tRQr4OqY=",
@@ -205,11 +204,11 @@
       "netstandard.dll": "sha256-N5CcC3sLzGBesbmeJAp5bwxABN9u7SwkIO5qfFjzoik=",
       "System.Private.CoreLib.dll": "sha256-bJS1DJmhjP7PvegYG+Z8O9EDtRY78HKinA3LUMVLlSQ=",
       "EduTrack.Client.Shared.dll": "sha256-XLgpLAAyIDfcbdQmg/43EcGZLBWSqX/AotK/BvuOkXk=",
-      "EduTrack.Client.Client.dll": "sha256-sy8diSu3tX5eUPCszO3aG9mzdye+JNbyTjMV8haDLkc="
+      "EduTrack.Client.Client.dll": "sha256-KCRMI/adC0qpkp3ZRk6wGEavqzFesaTpDjFMh+W7G84="
     },
     "pdb": {
       "EduTrack.Client.Shared.pdb": "sha256-ChpC4DNAvnstQQV0avALf2SpZ48U9sAwr50i/+Y+dHQ=",
-      "EduTrack.Client.Client.pdb": "sha256-vfBBOdArx1ILdcSyfRfTYLbfAfkfsytHDDQdj06jDx4="
+      "EduTrack.Client.Client.pdb": "sha256-+mlKRxpOEBGinwxEQfo5CWGxCvwOrvIiUjWpCdsEXJs="
     },
     "runtimeAssets": {
       "dotnet.wasm": {

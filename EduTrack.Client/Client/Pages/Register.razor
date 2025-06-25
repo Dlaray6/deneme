@@ -4,145 +4,292 @@
 @inject NavigationManager Navigation
 @inject ILogger<Register> Logger
 
-<PageTitle>Kayıt Ol</PageTitle>
+<PageTitle>Kayıt Ol - EduTrack</PageTitle>
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card shadow">
-                <div class="card-header bg-primary text-white">
-                    <h3 class="text-center">Yeni Kullanıcı Kaydı</h3>
-                </div>
-                <div class="card-body">
-                    <EditForm Model="@RegisterModel" OnValidSubmit="@HandleRegister">
-                        <DataAnnotationsValidator />
-                        <ValidationSummary class="text-danger" />
-
-                        <!-- TC Kimlik No -->
-                        <div class="mb-3">
-                            <label for="tcNo" class="form-label">TC Kimlik No</label>
-                            <InputText id="tcNo" @bind-Value="RegisterModel.TcNo" 
-                                      class="form-control" placeholder="11 haneli giriniz" />
-                            <ValidationMessage For="@(() => RegisterModel.TcNo)" class="text-danger" />
-                        </div>
-
-                        <!-- İsim Soyisim -->
-                        <div class="mb-3">
-                            <label for="fullName" class="form-label">İsim Soyisim</label>
-                            <InputText id="fullName" @bind-Value="RegisterModel.FullName" 
-                                      class="form-control" />
-                            <ValidationMessage For="@(() => RegisterModel.FullName)" class="text-danger" />
-                        </div>
-
-                        <!-- Okul Numarası -->
-                        <div class="mb-3">
-                            <label for="schoolNumber" class="form-label">Okul Numarası</label>
-                            <InputText id="schoolNumber" @bind-Value="RegisterModel.SchoolNumber" 
-                                      class="form-control" />
-                            <ValidationMessage For="@(() => RegisterModel.SchoolNumber)" class="text-danger" />
-                        </div>
-
-                        <!-- Okul Adı -->
-                        <div class="mb-3">
-                            <label for="schoolName" class="form-label">Okul Adı</label>
-                            <InputText id="schoolName" @bind-Value="RegisterModel.SchoolName" 
-                                      class="form-control" />
-                            <ValidationMessage For="@(() => RegisterModel.SchoolName)" class="text-danger" />
-                        </div>
-
-                        <!-- Rol Seçimi -->
-                        <div class="mb-4">
-                            <label for="role" class="form-label">Rolünüz</label>
-                            <InputSelect id="role" @bind-Value="RegisterModel.Role" class="form-select">
-                                <option value="">Seçiniz...</option>
-                                <option value="Student">Öğrenci</option>
-                                <option value="Teacher">Öğretmen</option>
-                                <option value="Admin">Yönetici</option>
-                            </InputSelect>
-                            <ValidationMessage For="@(() => RegisterModel.Role)" class="text-danger" />
-                        </div>
-
-                        <!-- Kayıt Butonu -->
-                        <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-primary" disabled="@IsProcessing">
-                                @(IsProcessing ? "İşleniyor..." : "Kayıt Ol")
-                            </button>
-                        </div>
-                    </EditForm>
-
-                    <!-- Geri Bildirim Mesajı -->
-                    @if (!string.IsNullOrEmpty(Message))
-                    {
-                        <div class="alert @AlertClass mt-3">@Message</div>
-                    }
-                </div>
-                <div class="card-footer text-center">
-                    <span>Zaten hesabınız var mı? </span>
-                    <a href="/login" class="text-primary">Giriş Yap</a>
-                </div>
-            </div>
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="auth-header">
+            <h3>Yeni Hesap Oluştur</h3>
+            <p>Eğitim takip sistemine erişmek için kayıt olun</p>
         </div>
+
+        <EditForm Model="@RegisterData" OnValidSubmit="@HandleRegister" class="auth-form">
+            <DataAnnotationsValidator />
+            <ValidationSummary class="text-danger" />
+
+            <!-- TC Kimlik No -->
+            <div class="form-group">
+                <label for="tcNo">TC Kimlik No</label>
+                <InputText id="tcNo" @bind-Value="RegisterData.TcNo"
+                           class="form-control" placeholder="11 haneli giriniz" />
+                <ValidationMessage For="@(() => RegisterData.TcNo)" />
+            </div>
+
+            <!-- İsim Soyisim -->
+            <div class="form-group">
+                <label for="name">İsim Soyisim</label>
+                <InputText id="name" @bind-Value="RegisterData.Name"
+                           class="form-control" />
+                <ValidationMessage For="@(() => RegisterData.Name)" />
+            </div>
+
+            <!-- Rol Seçimi -->
+            <div class="form-group">
+                <label for="role">Hesap Türü</label>
+                <InputSelect id="role" @bind-Value="RegisterData.Role" class="form-control">
+                    <option value="">Seçiniz...</option>
+                    <option value="Student">Öğrenci</option>
+                    <option value="Teacher">Öğretmen</option>
+                    <option value="Idare">İdare</option>
+                </InputSelect>
+                <ValidationMessage For="@(() => RegisterData.Role)" />
+            </div>
+
+            <!-- Öğrenci için Okul Numarası -->
+            @if (RegisterData.Role == "Student")
+            {
+                <div class="form-group">
+                    <label for="schoolNumber">Okul Numarası</label>
+                    <InputText id="schoolNumber" @bind-Value="RegisterData.SchoolNumber"
+                               class="form-control" />
+                    <ValidationMessage For="@(() => RegisterData.SchoolNumber)" />
+                </div>
+            }
+
+            <!-- Öğretmen için Telefon -->
+            @if (RegisterData.Role == "Teacher")
+            {
+                <div class="form-group">
+                    <label for="phoneNumber">Telefon Numarası</label>
+                    <InputText id="phoneNumber" @bind-Value="RegisterData.PhoneNumber"
+                               class="form-control" placeholder="0555 123 45 67" />
+                    <ValidationMessage For="@(() => RegisterData.PhoneNumber)" />
+                </div>
+            }
+
+            <!-- Şifre -->
+            <div class="form-group">
+                <label for="password">Şifre</label>
+                <InputText id="password" type="password" @bind-Value="RegisterData.Password"
+                           class="form-control" />
+                <ValidationMessage For="@(() => RegisterData.Password)" />
+            </div>
+
+            <!-- Şifre Tekrar -->
+            <div class="form-group">
+                <label for="confirmPassword">Şifre Tekrar</label>
+                <InputText id="confirmPassword" type="password" @bind-Value="ConfirmPassword"
+                           class="form-control" />
+                @if (RegisterData.Password != ConfirmPassword && !string.IsNullOrEmpty(ConfirmPassword))
+                {
+                    <div class="text-danger">Şifreler uyuşmuyor</div>
+                }
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100" disabled="@IsLoading">
+                @(IsLoading ? "Kayıt Olunuyor..." : "Kayıt Ol")
+            </button>
+        </EditForm>
+
+        <div class="auth-footer">
+            Zaten hesabınız var mı? <a href="/login">Giriş Yapın</a>
+        </div>
+
+        <!-- Bildirimler -->
+        @if (ShowAlert)
+        {
+            <div class="alert @AlertCssClass">
+                @AlertMessage
+            </div>
+        }
     </div>
 </div>
 
 @code {
-    // Model
-    public class RegisterRequest
-    {
-        [Required(ErrorMessage = "TC kimlik no zorunludur")]
-        [StringLength(11, MinimumLength = 11, ErrorMessage = "TC no 11 haneli olmalıdır")]
-        public string TcNo { get; set; } = string.Empty;
+    // Form modeli
+    private RegisterModel RegisterData = new();
+    private string ConfirmPassword = "";
+    private bool IsLoading = false;
+    private bool ShowAlert = false;
+    private string AlertMessage = "";
+    private string AlertCssClass => IsSuccess ? "alert-success" : "alert-danger";
+    private bool IsSuccess = false;
 
-        [Required(ErrorMessage = "İsim soyisim zorunludur")]
-        public string FullName { get; set; } = string.Empty;
-
-        [Required(ErrorMessage = "Okul numarası zorunludur")]
-        public string SchoolNumber { get; set; } = string.Empty;
-
-        [Required(ErrorMessage = "Okul adı zorunludur")]
-        public string SchoolName { get; set; } = string.Empty;
-
-        [Required(ErrorMessage = "Rol seçimi zorunludur")]
-        public string Role { get; set; } = string.Empty;
-    }
-
-    // Component State
-    private RegisterRequest RegisterModel { get; set; } = new();
-    private bool IsProcessing { get; set; } = false;
-    private string Message { get; set; } = string.Empty;
-    private string AlertClass => Message.Contains("başarılı") ? "alert-success" : "alert-danger";
-
-    // İşlemler
     private async Task HandleRegister()
     {
-        IsProcessing = true;
-        Message = string.Empty;
-
         try
         {
-            var response = await Http.PostAsJsonAsync("api/auth/register", RegisterModel);
+            IsLoading = true;
+            ShowAlert = false;
+
+            // Şifre kontrolü
+            if (RegisterData.Password != ConfirmPassword)
+            {
+                AlertMessage = "Şifreler uyuşmuyor!";
+                ShowAlert = true;
+                IsSuccess = false;
+                return;
+            }
+
+            // API'ye gönderilecek model
+            var requestModel = new RegisterRequest
+            {
+                TcNo = RegisterData.TcNo,
+                Name = RegisterData.Name,
+                Role = RegisterData.Role,
+                Password = RegisterData.Password,
+                SchoolNumber = RegisterData.SchoolNumber,
+                PhoneNumber = RegisterData.PhoneNumber
+            };
+
+            // HttpClient ile API'ye istek gönder
+            var response = await Http.PostAsJsonAsync("api/auth/register", requestModel);
 
             if (response.IsSuccessStatusCode)
             {
-                Message = "Kayıt başarılı! Giriş sayfasına yönlendiriliyorsunuz...";
+                AlertMessage = "Kayıt başarılı! Giriş sayfasına yönlendiriliyorsunuz...";
+                ShowAlert = true;
+                IsSuccess = true;
+
                 await Task.Delay(2000);
                 Navigation.NavigateTo("/login");
             }
             else
             {
-                var error = await response.Content.ReadAsStringAsync();
-                Message = $"Kayıt başarısız: {error}";
-                Logger.LogError($"Register error: {error}");
+                var errorContent = await response.Content.ReadAsStringAsync();
+                Logger.LogError($"Register error: {response.StatusCode} - {errorContent}");
+
+                // Backend'den gelen JSON error'ı parse et
+                try
+                {
+                    var errorObj = System.Text.Json.JsonSerializer.Deserialize<ErrorResponse>(errorContent);
+                    AlertMessage = errorObj?.message ?? $"Kayıt hatası: {response.StatusCode}";
+                }
+                catch
+                {
+                    AlertMessage = $"Kayıt hatası: {response.StatusCode} - {errorContent}";
+                }
+
+                ShowAlert = true;
+                IsSuccess = false;
             }
         }
         catch (Exception ex)
         {
-            Message = $"Sistem hatası: {ex.Message}";
+            AlertMessage = $"Bağlantı hatası: {ex.Message}";
+            ShowAlert = true;
+            IsSuccess = false;
             Logger.LogError(ex, "Register exception");
         }
         finally
         {
-            IsProcessing = false;
+            IsLoading = false;
         }
     }
+
+    // Form validation modeli
+    public class RegisterModel
+    {
+        [Required(ErrorMessage = "TC Kimlik No gerekli")]
+        [StringLength(11, MinimumLength = 11, ErrorMessage = "TC Kimlik No 11 haneli olmalı")]
+        public string TcNo { get; set; } = "";
+
+        [Required(ErrorMessage = "İsim Soyisim gerekli")]
+        [StringLength(100, ErrorMessage = "İsim Soyisim maksimum 100 karakter olabilir")]
+        public string Name { get; set; } = "";
+
+        [Required(ErrorMessage = "Rol seçimi gerekli")]
+        public string Role { get; set; } = "";
+
+        [Required(ErrorMessage = "Şifre gerekli")]
+        [StringLength(100, MinimumLength = 6, ErrorMessage = "Şifre en az 6 karakter olmalı")]
+        public string Password { get; set; } = "";
+
+        public string? SchoolNumber { get; set; }
+        public string? PhoneNumber { get; set; }
+    }
+
+    // API request modeli
+    public class RegisterRequest
+    {
+        public string TcNo { get; set; } = "";
+        public string Name { get; set; } = "";
+        public string Role { get; set; } = "";
+        public string Password { get; set; } = "";
+        public string? SchoolNumber { get; set; }
+        public string? PhoneNumber { get; set; }
+    }
+
+    // Error response model
+    public class ErrorResponse
+    {
+        public string message { get; set; } = "";
+    }
 }
+
+<style>
+    .auth-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-color: #f8f9fa;
+        padding: 20px;
+    }
+
+    .auth-card {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 500px;
+        padding: 2rem;
+    }
+
+    .auth-header {
+        text-align: center;
+        margin-bottom: 1.5rem;
+    }
+
+        .auth-header h3 {
+            color: #343a40;
+            margin-bottom: 0.5rem;
+        }
+
+        .auth-header p {
+            color: #6c757d;
+        }
+
+    .auth-form .form-group {
+        margin-bottom: 1.25rem;
+    }
+
+    .auth-footer {
+        text-align: center;
+        margin-top: 1.5rem;
+        color: #6c757d;
+    }
+
+        .auth-footer a {
+            color: #0d6efd;
+            text-decoration: none;
+        }
+
+    .alert {
+        margin-top: 1rem;
+        padding: 0.75rem 1.25rem;
+        border-radius: 0.25rem;
+    }
+
+    .alert-success {
+        color: #155724;
+        background-color: #d4edda;
+        border: 1px solid #c3e6cb;
+    }
+
+    .alert-danger {
+        color: #721c24;
+        background-color: #f8d7da;
+        border: 1px solid #f5c6cb;
+    }
+</style>

@@ -1,5 +1,37 @@
 [
   {
+    "ContainingType": "EduTrack.API.Controllers.AuthController",
+    "Method": "Login",
+    "RelativePath": "api/Auth/login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "EduTrack.API.Controllers.AuthController\u002BLoginRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "EduTrack.API.Controllers.AuthController",
+    "Method": "Register",
+    "RelativePath": "api/Auth/register",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "EduTrack.API.Controllers.AuthController\u002BRegisterRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "EduTrack.API.Controllers.ClassController",
     "Method": "GetById",
     "RelativePath": "api/Class/{id}",
@@ -85,6 +117,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "ClassLessonController",
+    "Method": "AddClassLesson",
+    "RelativePath": "api/ClassLesson",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "ClassLessonDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "EduTrack.API.Controllers.NoteController",
     "Method": "AddNote",
     "RelativePath": "api/Note/add",
@@ -118,18 +166,12 @@
   },
   {
     "ContainingType": "EduTrack.API.Controllers.NoteController",
-    "Method": "GetByStudent",
-    "RelativePath": "api/Note/by-student/{studentId}",
+    "Method": "GetMyNotes",
+    "RelativePath": "api/Note/my",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [
-      {
-        "Name": "studentId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
+    "Parameters": [],
     "ReturnTypes": []
   },
   {
@@ -149,64 +191,16 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "EduTrack.API.Controllers.UserController",
-    "Method": "GetByTc",
-    "RelativePath": "api/User/{tcNo}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "tcNo",
-        "Type": "System.String",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "EduTrack.API.Controllers.UserController",
-    "Method": "CheckPassword",
-    "RelativePath": "api/User/check-password",
+    "ContainingType": "EduTrack.API.Controllers.TeacherClassLessonController",
+    "Method": "AddTeacherClassLesson",
+    "RelativePath": "api/TeacherClassLesson",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "request",
-        "Type": "EduTrack.API.Controllers.PasswordCheckRequest",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "EduTrack.API.Controllers.UserController",
-    "Method": "Register",
-    "RelativePath": "api/User/register",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "user",
-        "Type": "EduTrack.Domain.User",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "EduTrack.API.Controllers.UserController",
-    "Method": "GetByRole",
-    "RelativePath": "api/User/role/{role}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "role",
-        "Type": "System.String",
+        "Name": "dto",
+        "Type": "EduTrack.API.Controllers.TeacherClassLessonDto",
         "IsRequired": true
       }
     ],

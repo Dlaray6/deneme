@@ -29,7 +29,10 @@ namespace EduTrack.API.Controllers
                     return Unauthorized(new { message = "TC veya şifre hatalı." });
 
                 var user = await _userService.GetUserByTCAsync(request.TcNo);
-                var token = _jwtService.GenerateToken(user!);
+                if (user == null)
+                    return Unauthorized(new { message = "TC veya şifre hatalı." });
+
+                var token = _jwtService.GenerateToken(user);
 
                 return Ok(new { Token = token, User = new { user.Id, user.Name, user.Role } });
             }
@@ -44,15 +47,15 @@ namespace EduTrack.API.Controllers
         {
             try
             {
-                // Validation
+                // Temel validasyon
                 if (string.IsNullOrWhiteSpace(request.TcNo) || string.IsNullOrWhiteSpace(request.Password))
                     return BadRequest(new { message = "TC ve şifre zorunludur." });
 
                 if (string.IsNullOrWhiteSpace(request.Name))
                     return BadRequest(new { message = "Ad zorunludur." });
 
-                if (request.TcNo.Length != 11)
-                    return BadRequest(new { message = "TC kimlik numarası 11 haneli olmalıdır." });
+                if (request.TcNo.Length != 11 || !request.TcNo.All(char.IsDigit))
+                    return BadRequest(new { message = "TC kimlik numarası 11 haneli ve sadece rakam olmalıdır." });
 
                 // Mevcut kullanıcı kontrolü
                 var existingUser = await _userService.GetUserByTCAsync(request.TcNo);
@@ -63,6 +66,17 @@ namespace EduTrack.API.Controllers
                 if (request.Role != "Student" && request.Role != "Teacher" && request.Role != "Idare")
                     return BadRequest(new { message = "Geçersiz rol. (Student, Teacher, Idare)" });
 
+                // Rol bazlı validasyon
+                if (request.Role == "Student" && string.IsNullOrWhiteSpace(request.SchoolNumber))
+                    return BadRequest(new { message = "Öğrenci için okul numarası zorunludur." });
+
+                if (request.Role == "Teacher" && string.IsNullOrWhiteSpace(request.PhoneNumber))
+                    return BadRequest(new { message = "Öğretmen için telefon numarası zorunludur." });
+
+                // Şifre uzunluk kontrolü
+                if (request.Password.Length < 6)
+                    return BadRequest(new { message = "Şifre en az 6 karakter olmalıdır." });
+
                 // Yeni kullanıcı oluştur
                 var newUser = new User
                 {
@@ -71,13 +85,15 @@ namespace EduTrack.API.Controllers
                     Role = request.Role,
                     Password = request.Password, // UserService'te hash'lenecek
                     SchoolNumber = request.SchoolNumber,
-                    PhoneNumber = request.PhoneNumber
+                    PhoneNumber = request.PhoneNumber,
+                    // SchoolId şimdilik null, daha sonra okul seçim mekanizması eklenebilir
+                    SchoolId = null
                 };
 
                 // Kullanıcıyı ekle
                 await _userService.AddUserAsync(newUser);
 
-                // ÖNEMLİ: Değişiklikleri kaydet
+                // Değişiklikleri kaydet
                 await _userService.SaveChangesAsync();
 
                 return Ok(new { message = "Kayıt başarılı." });
@@ -97,7 +113,7 @@ namespace EduTrack.API.Controllers
         public class RegisterRequest
         {
             public string TcNo { get; set; } = "";
-            public string Name { get; set; } = ""; // ÖNEMLİ: Bu eksikti!
+            public string Name { get; set; } = "";
             public string Password { get; set; } = "";
             public string Role { get; set; } = "";
             public string? SchoolNumber { get; set; }

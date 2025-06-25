@@ -28,7 +28,6 @@ D:\edutrack\EduTrack.Client\Client\bin\Debug\net7.0\wwwroot\_framework\Microsoft
 D:\edutrack\EduTrack.Client\Client\bin\Debug\net7.0\wwwroot\_framework\Microsoft.Extensions.FileProviders.Abstractions.dll
 D:\edutrack\EduTrack.Client\Client\bin\Debug\net7.0\wwwroot\_framework\Microsoft.Extensions.FileProviders.Physical.dll
 D:\edutrack\EduTrack.Client\Client\bin\Debug\net7.0\wwwroot\_framework\Microsoft.Extensions.FileSystemGlobbing.dll
-D:\edutrack\EduTrack.Client\Client\bin\Debug\net7.0\wwwroot\_framework\Microsoft.Extensions.Http.dll
 D:\edutrack\EduTrack.Client\Client\bin\Debug\net7.0\wwwroot\_framework\Microsoft.Extensions.Logging.Abstractions.dll
 D:\edutrack\EduTrack.Client\Client\bin\Debug\net7.0\wwwroot\_framework\Microsoft.Extensions.Logging.dll
 D:\edutrack\EduTrack.Client\Client\bin\Debug\net7.0\wwwroot\_framework\Microsoft.Extensions.Options.dll
@@ -318,7 +317,6 @@ D:\edutrack\EduTrack.Client\Client\bin\Debug\net7.0\wwwroot\_framework\System.IO
 D:\edutrack\EduTrack.Client\Client\bin\Debug\net7.0\wwwroot\_framework\System.Net.HttpListener.dll.gz
 D:\edutrack\EduTrack.Client\Client\bin\Debug\net7.0\wwwroot\_framework\System.ComponentModel.dll.gz
 D:\edutrack\EduTrack.Client\Client\bin\Debug\net7.0\wwwroot\_framework\Microsoft.CSharp.dll.gz
-D:\edutrack\EduTrack.Client\Client\bin\Debug\net7.0\wwwroot\_framework\Microsoft.Extensions.Http.dll.gz
 D:\edutrack\EduTrack.Client\Client\bin\Debug\net7.0\wwwroot\_framework\System.Runtime.InteropServices.dll.gz
 D:\edutrack\EduTrack.Client\Client\bin\Debug\net7.0\wwwroot\_framework\Microsoft.Extensions.Configuration.dll.gz
 D:\edutrack\EduTrack.Client\Client\bin\Debug\net7.0\wwwroot\_framework\System.Resources.ResourceManager.dll.gz
@@ -428,7 +426,6 @@ D:\edutrack\EduTrack.Client\Client\bin\Debug\net7.0\Microsoft.Extensions.Depende
 D:\edutrack\EduTrack.Client\Client\bin\Debug\net7.0\Microsoft.Extensions.FileProviders.Abstractions.dll
 D:\edutrack\EduTrack.Client\Client\bin\Debug\net7.0\Microsoft.Extensions.FileProviders.Physical.dll
 D:\edutrack\EduTrack.Client\Client\bin\Debug\net7.0\Microsoft.Extensions.FileSystemGlobbing.dll
-D:\edutrack\EduTrack.Client\Client\bin\Debug\net7.0\Microsoft.Extensions.Http.dll
 D:\edutrack\EduTrack.Client\Client\bin\Debug\net7.0\Microsoft.Extensions.Logging.dll
 D:\edutrack\EduTrack.Client\Client\bin\Debug\net7.0\Microsoft.Extensions.Logging.Abstractions.dll
 D:\edutrack\EduTrack.Client\Client\bin\Debug\net7.0\Microsoft.Extensions.Options.dll
@@ -626,6 +623,8 @@ D:\edutrack\EduTrack.Client\Client\obj\Debug\net7.0\rjsmcshtml.dswa.cache.json
 D:\edutrack\EduTrack.Client\Client\obj\Debug\net7.0\scopedcss\bundle\EduTrack.Client.Client.styles.css
 D:\edutrack\EduTrack.Client\Client\obj\Debug\net7.0\blazor.build.boot-extension.json
 D:\edutrack\EduTrack.Client\Client\obj\Debug\net7.0\blazor.boot.json
+D:\edutrack\EduTrack.Client\Client\obj\Debug\net7.0\service-worker\service-worker-assets.js.build
+D:\edutrack\EduTrack.Client\Client\obj\Debug\net7.0\service-worker\service-worker.js.build
 D:\edutrack\EduTrack.Client\Client\obj\Debug\net7.0\compressed\u10b0mofgz-s4opx6c2mv.gz
 D:\edutrack\EduTrack.Client\Client\obj\Debug\net7.0\compressed\51awp3udwd-bos2vx7jpi.gz
 D:\edutrack\EduTrack.Client\Client\obj\Debug\net7.0\compressed\xzme1tmhkw-9cy9x2fbvy.gz
@@ -643,7 +642,6 @@ D:\edutrack\EduTrack.Client\Client\obj\Debug\net7.0\compressed\hrf0m4v6bn-mu4472
 D:\edutrack\EduTrack.Client\Client\obj\Debug\net7.0\compressed\8vf0js485b-m16opti6mw.gz
 D:\edutrack\EduTrack.Client\Client\obj\Debug\net7.0\compressed\3dn6lqug6e-vi1xsib3zw.gz
 D:\edutrack\EduTrack.Client\Client\obj\Debug\net7.0\compressed\xz1cj6cuxn-6d0d6d1ost.gz
-D:\edutrack\EduTrack.Client\Client\obj\Debug\net7.0\compressed\izodx6oxxe-e4e9crlua8.gz
 D:\edutrack\EduTrack.Client\Client\obj\Debug\net7.0\compressed\31zf4vuvql-w6f789y4uu.gz
 D:\edutrack\EduTrack.Client\Client\obj\Debug\net7.0\compressed\m4gr2gt5aj-a5f596hkdg.gz
 D:\edutrack\EduTrack.Client\Client\obj\Debug\net7.0\compressed\p3s732l6gw-vsno8mpsaj.gz
@@ -826,6 +824,11 @@ D:\edutrack\EduTrack.Client\Client\obj\Debug\net7.0\compressed\75rpw43mqu-tjcz0u
 D:\edutrack\EduTrack.Client\Client\obj\Debug\net7.0\compressed\0d2eed8z6q-tptq2av103.gz
 D:\edutrack\EduTrack.Client\Client\obj\Debug\net7.0\compressed\58tfpt7jni-lfu7j35m59.gz
 D:\edutrack\EduTrack.Client\Client\obj\Debug\net7.0\compressed\4sxl3ixaka-7cxe8oq9xu.gz
+D:\edutrack\EduTrack.Client\Client\obj\Debug\net7.0\compressed\2aqueqcr9c-c2h990i3vk.gz
+D:\edutrack\EduTrack.Client\Client\obj\Debug\net7.0\compressed\nv9yyvhfam-awocd5nl1c.gz
+D:\edutrack\EduTrack.Client\Client\obj\Debug\net7.0\compressed\vjwkha1nr6-oo2lvf8dpk.gz
+D:\edutrack\EduTrack.Client\Client\obj\Debug\net7.0\compressed\0c21on6vva-6spifh33vb.gz
+D:\edutrack\EduTrack.Client\Client\obj\Debug\net7.0\compressed\yumcasykli-t6uuw2d3tq.gz
 D:\edutrack\EduTrack.Client\Client\obj\Debug\net7.0\staticwebassets.build.json
 D:\edutrack\EduTrack.Client\Client\obj\Debug\net7.0\staticwebassets.build.json.cache
 D:\edutrack\EduTrack.Client\Client\obj\Debug\net7.0\staticwebassets.development.json
@@ -835,9 +838,4 @@ D:\edutrack\EduTrack.Client\Client\obj\Debug\net7.0\EduTrack.Client.Client.dll
 D:\edutrack\EduTrack.Client\Client\obj\Debug\net7.0\refint\EduTrack.Client.Client.dll
 D:\edutrack\EduTrack.Client\Client\obj\Debug\net7.0\EduTrack.Client.Client.pdb
 D:\edutrack\EduTrack.Client\Client\obj\Debug\net7.0\ref\EduTrack.Client.Client.dll
-D:\edutrack\EduTrack.Client\Client\obj\Debug\net7.0\compressed\2aqueqcr9c-c2h990i3vk.gz
-D:\edutrack\EduTrack.Client\Client\obj\Debug\net7.0\compressed\nv9yyvhfam-awocd5nl1c.gz
-D:\EduTrack\EduTrack.Client\Client\obj\Debug\net7.0\staticwebassets.upToDateCheck.txt
-D:\edutrack\EduTrack.Client\Client\obj\Debug\net7.0\compressed\vjwkha1nr6-bebsfqnabw.gz
-D:\edutrack\EduTrack.Client\Client\obj\Debug\net7.0\compressed\0c21on6vva-5e0rarexyp.gz
-D:\edutrack\EduTrack.Client\Client\obj\Debug\net7.0\compressed\yumcasykli-a89ynn4bq0.gz
+D:\edutrack\EduTrack.Client\Client\obj\Debug\net7.0\staticwebassets.upToDateCheck.txt

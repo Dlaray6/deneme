@@ -13,7 +13,7 @@ namespace EduTrack.Domain
         public string TcNo { get; set; } = string.Empty;
 
         [Required]
-        public string Name { get; set; } = string.Empty; // ÖNEMLİ: Bu eksikti!
+        public string Name { get; set; } = string.Empty;
 
         [Required]
         public string Password { get; set; } = string.Empty;
@@ -27,6 +27,7 @@ namespace EduTrack.Domain
         // Öğretmen için telefon
         public string? PhoneNumber { get; set; }
 
+        // SchoolId nullable olmalı - kayıt sırasında okul atanmayabilir
         public int? SchoolId { get; set; }
         public School? School { get; set; }
 

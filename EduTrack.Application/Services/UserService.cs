@@ -32,18 +32,13 @@ namespace EduTrack.Application.Services
             return Convert.ToBase64String(hash);
         }
 
+        // UserService.cs
         public async Task AddUserAsync(User user)
         {
-            // Şifreyi hash'le
             user.Password = HashPassword(user.Password);
-
-            // Repository'ye ekle
             await _userRepository.AddUserAsync(user);
-
-            // ÖNEMLİ: Burada SaveChanges çağırma, Controller'da çağır
-            // await _userRepository.SaveChangesAsync(); // BUNU KALDIR
+            // SaveChangesAsync() burada TEK SEFER çağrılmalı
         }
-
         public async Task<User?> GetUserByTCAsync(string tcNo)
         {
             return await _userRepository.GetUserByTcNoAsync(tcNo);

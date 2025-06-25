@@ -64,10 +64,6 @@
               "target": "Package",
               "version": "[7.0.19, )"
             },
-            "Microsoft.Extensions.Http": {
-              "target": "Package",
-              "version": "[7.0.0, )"
-            },
             "Microsoft.NET.ILLink.Analyzers": {
               "suppressParent": "All",
               "target": "Package",
@@ -85,6 +81,10 @@
               "target": "Package",
               "version": "[9.0.6, )",
               "autoReferenced": true
+            },
+            "System.Net.Http.Json": {
+              "target": "Package",
+              "version": "[7.0.1, )"
             }
           },
           "imports": [
