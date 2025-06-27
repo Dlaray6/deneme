@@ -1,0 +1,205 @@
+﻿@page "/admin-lessons"
+@inject HttpClient Http
+@inject NavigationManager Navigation
+@inject ILogger<AdminClassLessons> Logger
+@inject IJSRuntime JSRuntime
+
+<link href="css/layout.css" rel="stylesheet" />
+
+<div class="auth-section">
+    <div class="auth-header">
+        <h3>Sınıfa Ders Ata</h3>
+        <p>Ders, öğretmen ve sınıf seçerek atama yapabilirsiniz.</p>
+    </div>
+
+    <div class="form-group">
+        <label>Sınıf Seçiniz:</label>
+        <InputSelect @bind-Value="SelectedClassId" class="form-control">
+            <option value="">Seçiniz...</option>
+            @foreach (var classItem in Classes)
+            {
+                <option value="@classItem.Id">@($"{classItem.Grade}-{classItem.Branch}")</option>
+            }
+        </InputSelect>
+    </div>
+
+    <div class="form-group">
+        <label>Ders Seçiniz:</label>
+        <InputSelect @bind-Value="SelectedLessonId" class="form-control">
+            <option value="">Seçiniz...</option>
+            @foreach (var lesson in Lessons)
+            {
+                <option value="@lesson.Id">@lesson.Name</option>
+            }
+        </InputSelect>
+    </div>
+
+    <div class="form-group">
+        <label>Öğretmen Seçiniz:</label>
+        <InputSelect @bind-Value="SelectedTeacherId" class="form-control">
+            <option value="">Seçiniz...</option>
+            @foreach (var teacher in Teachers)
+            {
+                <option value="@teacher.Id">@teacher.Name</option>
+            }
+        </InputSelect>
+    </div>
+
+    <button @onclick="AssignLessonToClass" class="btn btn-primary w-100 mt-2" disabled="@IsLoadingAssign">
+        @(IsLoadingAssign ? "Atanıyor..." : "Ders Ata")
+    </button>
+
+    <button class="btn btn-secondary w-100 mt-4" @onclick="@(() => Navigation.NavigateTo("/admin-dashboard"))">
+        ⬅️ İdare Paneline Dön
+    </button>
+
+    @if (ShowAssignAlert)
+    {
+        <div class="alert @(IsAssignSuccess ? "alert-success" : "alert-danger") mt-2">
+            @AssignAlertMessage
+        </div>
+    }
+</div>
+
+@code {
+    private List<ClassRoom> Classes = new();
+    private List<Lesson> Lessons = new();
+    private List<Teacher> Teachers = new();
+
+    private int? SelectedClassId;
+    private int? SelectedLessonId;
+    private int? SelectedTeacherId;
+
+    private bool IsLoadingAssign = false;
+    private bool ShowAssignAlert = false;
+    private string AssignAlertMessage = "";
+    private bool IsAssignSuccess = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadClasses();
+        await LoadLessons();
+        await LoadTeachers();
+    }
+
+    private async Task LoadClasses()
+    {
+        try
+        {
+            var token = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "authToken");
+            Http.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
+            Classes = await Http.GetFromJsonAsync<List<ClassRoom>>("api/classes") ?? new();
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Sınıflar yüklenirken hata.");
+        }
+    }
+
+    private async Task LoadLessons()
+    {
+        try
+        {
+            var token = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "authToken");
+            Http.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
+            Lessons = await Http.GetFromJsonAsync<List<Lesson>>("api/classlessons/lessons") ?? new();
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Dersler yüklenirken hata.");
+        }
+    }
+
+    private async Task LoadTeachers()
+    {
+        try
+        {
+            var token = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "authToken");
+            Http.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
+            Teachers = await Http.GetFromJsonAsync<List<Teacher>>("api/teachers") ?? new();
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Öğretmenler yüklenirken hata.");
+        }
+    }
+
+    private async Task AssignLessonToClass()
+    {
+        if (SelectedClassId == null || SelectedLessonId == null || SelectedTeacherId == null)
+        {
+            AssignAlertMessage = "Lütfen sınıf, ders ve öğretmen seçiniz.";
+            IsAssignSuccess = false;
+            ShowAssignAlert = true;
+            return;
+        }
+
+        try
+        {
+            IsLoadingAssign = true;
+            ShowAssignAlert = false;
+
+            var token = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "authToken");
+            Http.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
+            var assignment = new
+            {
+                ClassRoomId = SelectedClassId,
+                LessonId = SelectedLessonId,
+                TeacherId = SelectedTeacherId
+            };
+
+            var response = await Http.PostAsJsonAsync("api/classlessons", assignment);
+
+            if (response.IsSuccessStatusCode)
+            {
+                AssignAlertMessage = "Ders başarıyla sınıfa ve öğretmene atandı!";
+                IsAssignSuccess = true;
+                SelectedClassId = null;
+                SelectedLessonId = null;
+                SelectedTeacherId = null;
+            }
+            else
+            {
+                var errorContent = await response.Content.ReadAsStringAsync();
+                AssignAlertMessage = $"Hata: {errorContent}";
+                IsAssignSuccess = false;
+            }
+
+            ShowAssignAlert = true;
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Ders atama sırasında hata oluştu.");
+            AssignAlertMessage = $"Hata: {ex.Message}";
+            IsAssignSuccess = false;
+            ShowAssignAlert = true;
+        }
+        finally
+        {
+            IsLoadingAssign = false;
+        }
+    }
+
+    public class ClassRoom
+    {
+        public int Id { get; set; }
+        public string Grade { get; set; } = "";
+        public string Branch { get; set; } = "";
+    }
+
+    public class Lesson
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = "";
+    }
+
+    public class Teacher
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = "";
+    }
+}

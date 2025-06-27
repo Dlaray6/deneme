@@ -1,36 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using EduTrack.Domain;
 using System.ComponentModel.DataAnnotations;
 
-namespace EduTrack.Domain
+public class User
 {
-    public class User
-    {
-        public int Id { get; set; } // PK
+    public int Id { get; set; } // PK
 
-        [Required]
-        [StringLength(11, MinimumLength = 11)]
-        public string TcNo { get; set; } = string.Empty;
+    [Required, StringLength(11, MinimumLength = 11)]
+    public string TcNo { get; set; } = string.Empty;
 
-        [Required]
-        public string Name { get; set; } = string.Empty;
+    [Required]
+    public string Name { get; set; } = string.Empty;
 
-        [Required]
-        public string Password { get; set; } = string.Empty;
+    [Required]
+    public string Password { get; set; } = string.Empty;
 
-        [Required]
-        public string Role { get; set; } = string.Empty; // "Student", "Teacher", "Idare"
+    [Required]
+    public string Role { get; set; } = string.Empty; // "Student", "Teacher", "Idare"
 
-        // Öğrenci için okul numarası
-        public string? SchoolNumber { get; set; }
+    public string? SchoolNumber { get; set; }  // Öğrenci için okul numarası
+    public string? PhoneNumber { get; set; }   // Öğretmen için telefon
 
-        // Öğretmen için telefon
-        public string? PhoneNumber { get; set; }
+    // SchoolId nullable olabilir (kayıt aşamasına bağlı)
+    public int? SchoolId { get; set; }
+    public School? School { get; set; }
 
-        // SchoolId nullable olmalı - kayıt sırasında okul atanmayabilir
-        public int? SchoolId { get; set; }
-        public School? School { get; set; }
-
-        public ICollection<ClassUser> ClassUsers { get; set; } = new List<ClassUser>();
-    }
+    public ICollection<ClassUser> ClassUsers { get; set; } = new List<ClassUser>();
 }

@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "Yeni Profil",
+    "Projects": [
+      {
+        "Path": "EduTrack.API\\EduTrack.API.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "EduTrack.Client\\Client\\EduTrack.Client.Client.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

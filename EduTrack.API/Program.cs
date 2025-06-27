@@ -3,7 +3,6 @@ using EduTrack.Application.Services;
 using EduTrack.Data;
 using EduTrack.Data.Repositories;
 using EduTrack.Data.Repositories.Interfaces;
-using EduTrack.Data.Repositories.Services;
 using EduTrack.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -11,6 +10,16 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.WithOrigins("https://localhost:7033")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
 
 
 builder.Services.AddDbContext<EduTrackDbContext>(options =>
@@ -28,29 +37,24 @@ builder.Services.AddDbContext<EduTrackDbContext>(options =>
 
 
 // ===== DEPENDENCY INJECTION - REPOSITORIES & SERVICES =====
+builder.Services.AddScoped<ISchoolRepository, SchoolRepository>();
+
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IClassRepository, ClassRepository>();
 builder.Services.AddScoped<INoteRepository, NoteRepository>();
 builder.Services.AddScoped<IClassLessonRepository, ClassLessonRepository>();
-builder.Services.AddScoped<ITeacherClassLessonRepository, TeacherClassLessonRepository>();
+
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IClassService, ClassService>();
 builder.Services.AddScoped<INoteService, NoteService>();
 builder.Services.AddScoped<IClassLessonService, ClassLessonService>();
-builder.Services.AddScoped<ITeacherClassLessonService, TeacherClassLessonService>();
+
 builder.Services.AddScoped<JwtService>();
 
 // ===== CORS CONFIGURATION =====
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowBlazorClient", policy =>
-    {
-        policy.WithOrigins("https://localhost:7033") // Blazor Client portunu yaz
-              .AllowAnyHeader()
-              .AllowAnyMethod();
-    });
-});
+
+
 
 // ===== JWT AUTHENTICATION =====
 builder.Services.AddAuthentication("Bearer")
@@ -117,11 +121,10 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 // CORS middleware burada ve sadece bir kere olmalý
-app.UseCors("AllowBlazorClient");
+app.UseCors();
 
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
 app.Run();

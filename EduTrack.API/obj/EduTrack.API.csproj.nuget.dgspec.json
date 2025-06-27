@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\edutrack\\EduTrack.API\\EduTrack.API.csproj": {}
+    "D:\\deneme\\EduTrack.API\\EduTrack.API.csproj": {}
   },
   "projects": {
-    "D:\\edutrack\\EduTrack.API\\EduTrack.API.csproj": {
+    "D:\\deneme\\EduTrack.API\\EduTrack.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\edutrack\\EduTrack.API\\EduTrack.API.csproj",
+        "projectUniqueName": "D:\\deneme\\EduTrack.API\\EduTrack.API.csproj",
         "projectName": "EduTrack.API",
-        "projectPath": "D:\\edutrack\\EduTrack.API\\EduTrack.API.csproj",
+        "projectPath": "D:\\deneme\\EduTrack.API\\EduTrack.API.csproj",
         "packagesPath": "C:\\Users\\90551\\.nuget\\packages\\",
-        "outputPath": "D:\\edutrack\\EduTrack.API\\obj\\",
+        "outputPath": "D:\\deneme\\EduTrack.API\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -33,11 +33,11 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "D:\\edutrack\\EduTrack.Application\\EduTrack.Application.csproj": {
-                "projectPath": "D:\\edutrack\\EduTrack.Application\\EduTrack.Application.csproj"
+              "D:\\deneme\\EduTrack.Application\\EduTrack.Application.csproj": {
+                "projectPath": "D:\\deneme\\EduTrack.Application\\EduTrack.Application.csproj"
               },
-              "D:\\edutrack\\EduTrack.Data\\EduTrack.Data.csproj": {
-                "projectPath": "D:\\edutrack\\EduTrack.Data\\EduTrack.Data.csproj"
+              "D:\\deneme\\EduTrack.Data\\EduTrack.Data.csproj": {
+                "projectPath": "D:\\deneme\\EduTrack.Data\\EduTrack.Data.csproj"
               }
             }
           }
@@ -87,6 +87,10 @@
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.5.0, )"
+            },
+            "System.Net.Http.Json": {
+              "target": "Package",
+              "version": "[9.0.6, )"
             }
           },
           "imports": [
@@ -112,14 +116,14 @@
         }
       }
     },
-    "D:\\edutrack\\EduTrack.Application\\EduTrack.Application.csproj": {
+    "D:\\deneme\\EduTrack.Application\\EduTrack.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\edutrack\\EduTrack.Application\\EduTrack.Application.csproj",
+        "projectUniqueName": "D:\\deneme\\EduTrack.Application\\EduTrack.Application.csproj",
         "projectName": "EduTrack.Application",
-        "projectPath": "D:\\edutrack\\EduTrack.Application\\EduTrack.Application.csproj",
+        "projectPath": "D:\\deneme\\EduTrack.Application\\EduTrack.Application.csproj",
         "packagesPath": "C:\\Users\\90551\\.nuget\\packages\\",
-        "outputPath": "D:\\edutrack\\EduTrack.Application\\obj\\",
+        "outputPath": "D:\\deneme\\EduTrack.Application\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -141,8 +145,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "D:\\edutrack\\EduTrack.Domain\\EduTrack.Domain.csproj": {
-                "projectPath": "D:\\edutrack\\EduTrack.Domain\\EduTrack.Domain.csproj"
+              "D:\\deneme\\EduTrack.Domain\\EduTrack.Domain.csproj": {
+                "projectPath": "D:\\deneme\\EduTrack.Domain\\EduTrack.Domain.csproj"
               }
             }
           }
@@ -200,14 +204,14 @@
         }
       }
     },
-    "D:\\edutrack\\EduTrack.Data\\EduTrack.Data.csproj": {
+    "D:\\deneme\\EduTrack.Data\\EduTrack.Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\edutrack\\EduTrack.Data\\EduTrack.Data.csproj",
+        "projectUniqueName": "D:\\deneme\\EduTrack.Data\\EduTrack.Data.csproj",
         "projectName": "EduTrack.Data",
-        "projectPath": "D:\\edutrack\\EduTrack.Data\\EduTrack.Data.csproj",
+        "projectPath": "D:\\deneme\\EduTrack.Data\\EduTrack.Data.csproj",
         "packagesPath": "C:\\Users\\90551\\.nuget\\packages\\",
-        "outputPath": "D:\\edutrack\\EduTrack.Data\\obj\\",
+        "outputPath": "D:\\deneme\\EduTrack.Data\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -229,11 +233,11 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "D:\\edutrack\\EduTrack.Application\\EduTrack.Application.csproj": {
-                "projectPath": "D:\\edutrack\\EduTrack.Application\\EduTrack.Application.csproj"
+              "D:\\deneme\\EduTrack.Application\\EduTrack.Application.csproj": {
+                "projectPath": "D:\\deneme\\EduTrack.Application\\EduTrack.Application.csproj"
               },
-              "D:\\edutrack\\EduTrack.Domain\\EduTrack.Domain.csproj": {
-                "projectPath": "D:\\edutrack\\EduTrack.Domain\\EduTrack.Domain.csproj"
+              "D:\\deneme\\EduTrack.Domain\\EduTrack.Domain.csproj": {
+                "projectPath": "D:\\deneme\\EduTrack.Domain\\EduTrack.Domain.csproj"
               }
             }
           }
@@ -297,14 +301,14 @@
         }
       }
     },
-    "D:\\edutrack\\EduTrack.Domain\\EduTrack.Domain.csproj": {
+    "D:\\deneme\\EduTrack.Domain\\EduTrack.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\edutrack\\EduTrack.Domain\\EduTrack.Domain.csproj",
+        "projectUniqueName": "D:\\deneme\\EduTrack.Domain\\EduTrack.Domain.csproj",
         "projectName": "EduTrack.Domain",
-        "projectPath": "D:\\edutrack\\EduTrack.Domain\\EduTrack.Domain.csproj",
+        "projectPath": "D:\\deneme\\EduTrack.Domain\\EduTrack.Domain.csproj",
         "packagesPath": "C:\\Users\\90551\\.nuget\\packages\\",
-        "outputPath": "D:\\edutrack\\EduTrack.Domain\\obj\\",
+        "outputPath": "D:\\deneme\\EduTrack.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

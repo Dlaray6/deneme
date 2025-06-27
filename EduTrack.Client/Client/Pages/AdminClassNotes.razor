@@ -1,0 +1,142 @@
+﻿@page "/admin-class-notes"
+@inject HttpClient Http
+@inject IJSRuntime JSRuntime
+@inject NavigationManager Navigation
+<h3>Sınıf Öğrencileri ve Notları</h3>
+<link href="css/lists.css" rel="stylesheet" />
+
+<div class="mb-3">
+    <label for="classSelect" class="form-label">Sınıf Seçiniz:</label>
+    <select id="classSelect" class="form-select" @onchange="OnClassChanged">
+        <option value="">Seçiniz...</option>
+        @foreach (var c in Classes)
+        {
+            <option value="@c.Id">@($"{c.Grade} - {c.Branch}")</option>
+        }
+    </select>
+</div>
+
+@if (IsLoading)
+{
+    <p>Yükleniyor...</p>
+}
+else if (StudentsWithNotes is not null)
+{
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Öğrenci Adı</th>
+                    <th>Notlar</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var student in StudentsWithNotes)
+                {
+                    <tr>
+                        <td>@student.Name</td>
+                        <td>
+                            @if (student.Notes.Any())
+                            {
+                                <ul class="notes-list">
+                                    @foreach (var note in student.Notes)
+                                    {
+                                        <li>@note.LessonName: <strong>@note.Score</strong></li>
+                                    }
+                                </ul>
+                            }
+                            else
+                            {
+                                <em>Not yok</em>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+@code {
+    private List<ClassRoom> Classes = new();
+    private List<StudentWithNotes>? StudentsWithNotes;
+    private bool IsLoading = false;
+
+    private int? SelectedClassId;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadClasses();
+    }
+
+    private async Task LoadClasses()
+    {
+        try
+        {
+            var token = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "authToken");
+            Http.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
+            Classes = await Http.GetFromJsonAsync<List<ClassRoom>>("api/classes") ?? new List<ClassRoom>();
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine($"Sınıflar yüklenirken hata: {ex.Message}");
+        }
+    }
+
+    private async Task OnClassChanged(ChangeEventArgs e)
+    {
+        if (int.TryParse(e.Value?.ToString(), out int classId))
+        {
+            SelectedClassId = classId;
+            await LoadStudentsWithNotes(classId);
+        }
+        else
+        {
+            SelectedClassId = null;
+            StudentsWithNotes = null;
+        }
+    }
+
+    private async Task LoadStudentsWithNotes(int classId)
+    {
+        IsLoading = true;
+
+        try
+        {
+            var token = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "authToken");
+            Http.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
+            StudentsWithNotes = await Http.GetFromJsonAsync<List<StudentWithNotes>>($"api/AdminNotes/admin-class-notes/{classId}");
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine($"Öğrenciler ve notlar yüklenirken hata: {ex.Message}");
+        }
+        finally
+        {
+            IsLoading = false;
+        }
+    }
+
+    public class ClassRoom
+    {
+        public int Id { get; set; }
+        public string Grade { get; set; } = "";
+        public string Branch { get; set; } = "";
+    }
+
+    public class StudentWithNotes
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = "";
+        public List<NoteDto> Notes { get; set; } = new();
+    }
+
+    public class NoteDto
+    {
+        public int Id { get; set; }
+        public float Score { get; set; }
+        public string LessonName { get; set; } = "";
+    }
+}

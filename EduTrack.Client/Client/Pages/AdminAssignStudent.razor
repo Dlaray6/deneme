@@ -1,0 +1,117 @@
+﻿@page "/admin-assign-student"
+@inject HttpClient Http
+@inject IJSRuntime JSRuntime
+@inject NavigationManager Navigation
+
+<h3 class="page-title">Öğrenci Sınıfa Ekle</h3>
+<link href="css/layout.css" rel="stylesheet" />
+
+<div class="form-card">
+    <div class="form-group">
+        <label>Öğrenci Seç:</label>
+        <select @bind="SelectedStudentId" class="form-control">
+            <option value="">Seçiniz...</option>
+            @foreach (var student in Students)
+            {
+                <option value="@student.Id">@student.Name</option>
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Sınıf Seç:</label>
+        <select @bind="SelectedClassId" class="form-control">
+            <option value="">Seçiniz...</option>
+            @foreach (var cls in Classes)
+            {
+                <option value="@cls.Id">@($"{cls.Grade} - {cls.Branch}")</option>
+            }
+        </select>
+    </div>
+
+    <button @onclick="AssignStudent" class="btn btn-primary">Ekle</button>
+
+    @if (!string.IsNullOrEmpty(StatusMessage))
+    {
+        <div class="alert alert-info mt-2">@StatusMessage</div>
+    }
+</div>
+<button class="btn btn-secondary w-100 mt-3" @onclick="@(() => Navigation.NavigateTo("/admin-dashboard"))">
+    ⬅️ İdare Paneline Dön
+</button>
+
+@if (!string.IsNullOrEmpty(StatusMessage))
+{
+    <div class="alert alert-info mt-2">@StatusMessage</div>
+}
+
+@code {
+    private List<ClassRoom> Classes = new();
+    private List<Student> Students = new();
+    private int? SelectedStudentId;
+    private int? SelectedClassId;
+    private string StatusMessage = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadClasses();
+        await LoadStudents();
+    }
+
+    private async Task LoadClasses()
+    {
+        var token = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "authToken");
+        Http.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
+        Classes = await Http.GetFromJsonAsync<List<ClassRoom>>("api/classes") ?? new List<ClassRoom>();
+    }
+
+    private async Task LoadStudents()
+    {
+        var token = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "authToken");
+        Http.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
+        Students = await Http.GetFromJsonAsync<List<Student>>("api/AdminStudents/all-students") ?? new List<Student>();
+    }
+
+    private async Task AssignStudent()
+    {
+        if (SelectedStudentId == null || SelectedClassId == null)
+        {
+            StatusMessage = "Lütfen hem öğrenci hem sınıf seçiniz.";
+            return;
+        }
+
+        var token = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "authToken");
+        Http.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
+        var result = await Http.PostAsJsonAsync("api/adminclasses/assign-student-to-class", new
+        {
+            StudentId = SelectedStudentId,
+            ClassId = SelectedClassId
+        });
+
+        if (result.IsSuccessStatusCode)
+        {
+            StatusMessage = "Öğrenci sınıfa eklendi!";
+        }
+        else
+        {
+            var error = await result.Content.ReadAsStringAsync();
+            StatusMessage = $"Hata: {error}";
+        }
+    }
+
+    public class ClassRoom
+    {
+        public int Id { get; set; }
+        public string Grade { get; set; } = "";
+        public string Branch { get; set; } = "";
+    }
+
+    public class Student
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = "";
+    }
+}

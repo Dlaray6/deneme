@@ -8,13 +8,14 @@ namespace EduTrack.Domain
 {
     public class School
     {
-        public int Id { get; set; } // PK
-        public string Name { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; } = string.Empty;
 
-        public string AccessCode { get; set; } // Özel kod
+        public string AccessCode { get; set; } = string.Empty;
 
-        public ICollection<ClassRoom> Classes { get; set; }
-        public ICollection<User> Users { get; set; }
+        public ICollection<ClassRoom> Classes { get; set; } = new List<ClassRoom>();
+        public ICollection<User> Users { get; set; } = new List<User>();
     }
+
 
 }

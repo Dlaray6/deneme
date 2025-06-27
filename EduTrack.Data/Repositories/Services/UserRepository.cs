@@ -47,7 +47,10 @@ namespace EduTrack.Data.Repositories
         {
             await _context.SaveChangesAsync();
         }
-
+        public async Task<bool> HasAdminForSchoolAsync(int? schoolId)
+        {
+            return await _context.Users.AnyAsync(u => u.Role == "Idare" && u.SchoolId == schoolId);
+        }
 
     }
 }

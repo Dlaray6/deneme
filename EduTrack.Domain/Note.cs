@@ -12,11 +12,11 @@ namespace EduTrack.Domain
 
         public int ClassUserClassId { get; set; }
         public int ClassUserUserId { get; set; }
-        public ClassUser ClassUser { get; set; }
+        public ClassUser? ClassUser { get; set; }
 
         public int ClassLessonClassId { get; set; }
         public int ClassLessonLessonId { get; set; }
-        public ClassLesson ClassLesson { get; set; }
+        public ClassLesson? ClassLesson { get; set; }
 
         public float Score { get; set; }
     }

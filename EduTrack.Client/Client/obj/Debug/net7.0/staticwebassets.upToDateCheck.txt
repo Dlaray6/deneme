@@ -1,2 +1,5 @@
 wwwroot\css\app.css
+wwwroot\css\layout.css
+wwwroot\css\lists.css
+wwwroot\favicon.ico
 wwwroot\index.html

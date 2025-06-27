@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\edutrack\\EduTrack.Client\\Server\\EduTrack.Client.Server.csproj": {}
+    "D:\\deneme\\EduTrack.Client\\Server\\EduTrack.Client.Server.csproj": {}
   },
   "projects": {
-    "D:\\edutrack\\EduTrack.Client\\Client\\EduTrack.Client.Client.csproj": {
+    "D:\\deneme\\EduTrack.Client\\Client\\EduTrack.Client.Client.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\edutrack\\EduTrack.Client\\Client\\EduTrack.Client.Client.csproj",
+        "projectUniqueName": "D:\\deneme\\EduTrack.Client\\Client\\EduTrack.Client.Client.csproj",
         "projectName": "EduTrack.Client.Client",
-        "projectPath": "D:\\edutrack\\EduTrack.Client\\Client\\EduTrack.Client.Client.csproj",
+        "projectPath": "D:\\deneme\\EduTrack.Client\\Client\\EduTrack.Client.Client.csproj",
         "packagesPath": "C:\\Users\\90551\\.nuget\\packages\\",
-        "outputPath": "D:\\edutrack\\EduTrack.Client\\Client\\obj\\",
+        "outputPath": "D:\\deneme\\EduTrack.Client\\Client\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -33,8 +33,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "D:\\edutrack\\EduTrack.Client\\Shared\\EduTrack.Client.Shared.csproj": {
-                "projectPath": "D:\\edutrack\\EduTrack.Client\\Shared\\EduTrack.Client.Shared.csproj"
+              "D:\\deneme\\EduTrack.Client\\Shared\\EduTrack.Client.Shared.csproj": {
+                "projectPath": "D:\\deneme\\EduTrack.Client\\Shared\\EduTrack.Client.Shared.csproj"
               }
             }
           }
@@ -82,6 +82,10 @@
               "version": "[9.0.6, )",
               "autoReferenced": true
             },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[5.7.0, )"
+            },
             "System.Net.Http.Json": {
               "target": "Package",
               "version": "[7.0.1, )"
@@ -112,14 +116,14 @@
         }
       }
     },
-    "D:\\edutrack\\EduTrack.Client\\Server\\EduTrack.Client.Server.csproj": {
+    "D:\\deneme\\EduTrack.Client\\Server\\EduTrack.Client.Server.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\edutrack\\EduTrack.Client\\Server\\EduTrack.Client.Server.csproj",
+        "projectUniqueName": "D:\\deneme\\EduTrack.Client\\Server\\EduTrack.Client.Server.csproj",
         "projectName": "EduTrack.Client.Server",
-        "projectPath": "D:\\edutrack\\EduTrack.Client\\Server\\EduTrack.Client.Server.csproj",
+        "projectPath": "D:\\deneme\\EduTrack.Client\\Server\\EduTrack.Client.Server.csproj",
         "packagesPath": "C:\\Users\\90551\\.nuget\\packages\\",
-        "outputPath": "D:\\edutrack\\EduTrack.Client\\Server\\obj\\",
+        "outputPath": "D:\\deneme\\EduTrack.Client\\Server\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -141,11 +145,11 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "D:\\edutrack\\EduTrack.Client\\Client\\EduTrack.Client.Client.csproj": {
-                "projectPath": "D:\\edutrack\\EduTrack.Client\\Client\\EduTrack.Client.Client.csproj"
+              "D:\\deneme\\EduTrack.Client\\Client\\EduTrack.Client.Client.csproj": {
+                "projectPath": "D:\\deneme\\EduTrack.Client\\Client\\EduTrack.Client.Client.csproj"
               },
-              "D:\\edutrack\\EduTrack.Client\\Shared\\EduTrack.Client.Shared.csproj": {
-                "projectPath": "D:\\edutrack\\EduTrack.Client\\Shared\\EduTrack.Client.Shared.csproj"
+              "D:\\deneme\\EduTrack.Client\\Shared\\EduTrack.Client.Shared.csproj": {
+                "projectPath": "D:\\deneme\\EduTrack.Client\\Shared\\EduTrack.Client.Shared.csproj"
               }
             }
           }
@@ -194,14 +198,14 @@
         }
       }
     },
-    "D:\\edutrack\\EduTrack.Client\\Shared\\EduTrack.Client.Shared.csproj": {
+    "D:\\deneme\\EduTrack.Client\\Shared\\EduTrack.Client.Shared.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\edutrack\\EduTrack.Client\\Shared\\EduTrack.Client.Shared.csproj",
+        "projectUniqueName": "D:\\deneme\\EduTrack.Client\\Shared\\EduTrack.Client.Shared.csproj",
         "projectName": "EduTrack.Client.Shared",
-        "projectPath": "D:\\edutrack\\EduTrack.Client\\Shared\\EduTrack.Client.Shared.csproj",
+        "projectPath": "D:\\deneme\\EduTrack.Client\\Shared\\EduTrack.Client.Shared.csproj",
         "packagesPath": "C:\\Users\\90551\\.nuget\\packages\\",
-        "outputPath": "D:\\edutrack\\EduTrack.Client\\Shared\\obj\\",
+        "outputPath": "D:\\deneme\\EduTrack.Client\\Shared\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

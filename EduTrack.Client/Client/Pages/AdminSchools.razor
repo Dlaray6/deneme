@@ -1,0 +1,164 @@
+﻿@page "/admin-schools"
+@inject HttpClient Http
+@inject NavigationManager Navigation
+@inject ILogger<AdminSchools> Logger
+@using System.ComponentModel.DataAnnotations
+
+<PageTitle>Okul Yönetimi - EduTrack</PageTitle>
+<link href="css/layout.css" rel="stylesheet" />
+
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="auth-header">
+            <h3>Okul Yönetimi</h3>
+            <p>Okulları görüntüleyin ve yeni okul ekleyin</p>
+        </div>
+
+        <!-- Okul Listesi -->
+        <h5>Mevcut Okullar:</h5>
+        <ul>
+            @if (Schools != null && Schools.Any())
+            {
+                @foreach (var school in Schools)
+                {
+                    <li>@school.Name (@school.AccessCode)</li>
+                }
+            }
+            else
+            {
+                <li>Henüz okul yok.</li>
+            }
+        </ul>
+
+        <!-- Yeni Okul Ekle -->
+        <EditForm Model="@NewSchool" OnValidSubmit="@AddSchool" class="auth-form">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <div class="form-group">
+                <label for="schoolName">Yeni Okul Adı</label>
+                <InputText id="schoolName" @bind-Value="NewSchool.Name" class="form-control" />
+                <ValidationMessage For="@(() => NewSchool.Name)" />
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100" disabled="@IsLoading">
+                @(IsLoading ? "Ekleniyor..." : "Okul Ekle")
+            </button>
+        </EditForm>
+
+        @if (ShowAlert)
+        {
+            <div class="alert @AlertCssClass mt-2">
+                @AlertMessage
+            </div>
+        }
+
+        <button class="btn btn-secondary w-100 mt-3" @onclick="@(() => Navigation.NavigateTo("/admin-dashboard"))">
+            ⬅️ İdare Paneline Dön
+        </button>
+    </div>
+</div>
+
+@code {
+    private List<School> Schools = new();
+    private SchoolCreateModel NewSchool = new();
+    private bool IsLoading = false;
+    private bool ShowAlert = false;
+    private string AlertMessage = "";
+    private bool IsSuccess = false;
+    private string AlertCssClass => IsSuccess ? "alert-success" : "alert-danger";
+    @inject IJSRuntime JSRuntime
+    private static readonly Random random = new();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        string token = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "authToken");
+        if (!string.IsNullOrEmpty(token))
+        {
+            Http.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+        }
+
+        await LoadSchools();
+    }
+
+   
+
+    private async Task LoadSchools()
+    {
+        try
+        {
+            Schools = await Http.GetFromJsonAsync<List<School>>("api/schools") ?? new List<School>();
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Okul listesi yüklenirken hata oluştu.");
+        }
+    }
+
+    private string GenerateAccessCode()
+    {
+        const string chars = "0123456789";
+        return new string(Enumerable.Range(0, 5).Select(_ => chars[random.Next(chars.Length)]).ToArray());
+    }
+
+    private async Task AddSchool()
+    {
+        try
+        {
+            IsLoading = true;
+            ShowAlert = false;
+
+            // Rastgele erişim kodu oluştur
+            var accessCode = GenerateAccessCode();
+
+            var newSchool = new
+            {
+                Name = NewSchool.Name,
+                AccessCode = accessCode
+            };
+
+            var response = await Http.PostAsJsonAsync("api/schools", newSchool);
+
+            if (response.IsSuccessStatusCode)
+            {
+                AlertMessage = $"Okul başarıyla eklendi! Erişim Kodu: {accessCode}";
+                IsSuccess = true;
+                NewSchool = new SchoolCreateModel();
+                await LoadSchools();
+            }
+            else
+            {
+                var error = await response.Content.ReadAsStringAsync();
+                AlertMessage = $"Hata: {error}";
+                IsSuccess = false;
+            }
+
+            ShowAlert = true;
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Okul eklenirken hata oluştu.");
+            AlertMessage = $"Sunucu hatası: {ex.Message}";
+            IsSuccess = false;
+            ShowAlert = true;
+        }
+        finally
+        {
+            IsLoading = false;
+        }
+    }
+
+    public class SchoolCreateModel
+    {
+        [Required(ErrorMessage = "Okul adı zorunludur.")]
+        public string Name { get; set; } = "";
+    }
+
+    public class School
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = "";
+        public string AccessCode { get; set; } = "";
+    }
+}

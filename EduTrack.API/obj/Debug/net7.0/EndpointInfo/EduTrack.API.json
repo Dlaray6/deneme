@@ -5,30 +5,144 @@
     "version": "v1"
   },
   "paths": {
-    "/api/Auth/login": {
+    "/api/AdminClasses": {
+      "get": {
+        "tags": [
+          "AdminClasses"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/AdminClasses/assign-student-to-class": {
       "post": {
         "tags": [
-          "Auth"
+          "AdminClasses"
         ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/LoginRequest"
+                "$ref": "#/components/schemas/AssignStudentRequest"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/LoginRequest"
+                "$ref": "#/components/schemas/AssignStudentRequest"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/LoginRequest"
+                "$ref": "#/components/schemas/AssignStudentRequest"
               }
             }
           }
         },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/AdminClasses/remove-student-from-class": {
+      "delete": {
+        "tags": [
+          "AdminClasses"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignStudentRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignStudentRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignStudentRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/AdminNotes/admin-class-notes/{classId}": {
+      "get": {
+        "tags": [
+          "AdminNotes"
+        ],
+        "parameters": [
+          {
+            "name": "classId",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/AdminStudents/all-students": {
+      "get": {
+        "tags": [
+          "AdminStudents"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/AdminTeachers/all-teachers": {
+      "get": {
+        "tags": [
+          "AdminTeachers"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/AdminTeachers/teacher-classes-lessons": {
+      "get": {
+        "tags": [
+          "AdminTeachers"
+        ],
+        "parameters": [
+          {
+            "name": "teacherId",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success"
@@ -67,74 +181,26 @@
         }
       }
     },
-    "/api/Class/{id}": {
-      "get": {
-        "tags": [
-          "Class"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/api/Class/school/{schoolId}": {
-      "get": {
-        "tags": [
-          "Class"
-        ],
-        "parameters": [
-          {
-            "name": "schoolId",
-            "in": "path",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/api/Class/add": {
+    "/api/Auth/login": {
       "post": {
         "tags": [
-          "Class"
+          "Auth"
         ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ClassRoom"
+                "$ref": "#/components/schemas/LoginRequest"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/ClassRoom"
+                "$ref": "#/components/schemas/LoginRequest"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/ClassRoom"
+                "$ref": "#/components/schemas/LoginRequest"
               }
             }
           }
@@ -146,82 +212,90 @@
         }
       }
     },
-    "/api/Class/assign": {
+    "/api/Classes": {
       "post": {
         "tags": [
-          "Class"
-        ],
-        "parameters": [
-          {
-            "name": "classId",
-            "in": "query",
-            "style": "form",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "userId",
-            "in": "query",
-            "style": "form",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/api/Class/users/{classId}": {
-      "get": {
-        "tags": [
-          "Class"
-        ],
-        "parameters": [
-          {
-            "name": "classId",
-            "in": "path",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/api/ClassLesson": {
-      "post": {
-        "tags": [
-          "ClassLesson"
+          "Classes"
         ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ClassLessonDto"
+                "$ref": "#/components/schemas/ClassCreateDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/ClassLessonDto"
+                "$ref": "#/components/schemas/ClassCreateDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/ClassLessonDto"
+                "$ref": "#/components/schemas/ClassCreateDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Classes"
+        ],
+        "parameters": [
+          {
+            "name": "schoolId",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/ClassLessons/lessons": {
+      "get": {
+        "tags": [
+          "ClassLessons"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/ClassLessons": {
+      "post": {
+        "tags": [
+          "ClassLessons"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClassLessonCreateDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClassLessonCreateDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClassLessonCreateDto"
               }
             }
           }
@@ -331,26 +405,175 @@
         }
       }
     },
-    "/api/TeacherClassLesson": {
+    "/api/School": {
+      "get": {
+        "tags": [
+          "School"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
       "post": {
         "tags": [
-          "TeacherClassLesson"
+          "School"
         ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/TeacherClassLessonDto"
+                "$ref": "#/components/schemas/SchoolCreateRequest"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/TeacherClassLessonDto"
+                "$ref": "#/components/schemas/SchoolCreateRequest"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/TeacherClassLessonDto"
+                "$ref": "#/components/schemas/SchoolCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Students/student-notes": {
+      "get": {
+        "tags": [
+          "Students"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Teachers": {
+      "get": {
+        "tags": [
+          "Teachers"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Teachers/classes": {
+      "get": {
+        "tags": [
+          "Teachers"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Teachers/students/{classId}": {
+      "get": {
+        "tags": [
+          "Teachers"
+        ],
+        "parameters": [
+          {
+            "name": "classId",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Teachers/lessons/{classId}": {
+      "get": {
+        "tags": [
+          "Teachers"
+        ],
+        "parameters": [
+          {
+            "name": "classId",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Teachers/class-notes/{classId}": {
+      "get": {
+        "tags": [
+          "Teachers"
+        ],
+        "parameters": [
+          {
+            "name": "classId",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Teachers/add-note": {
+      "post": {
+        "tags": [
+          "Teachers"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddNoteRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddNoteRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddNoteRequest"
               }
             }
           }
@@ -365,6 +588,65 @@
   },
   "components": {
     "schemas": {
+      "AddNoteRequest": {
+        "type": "object",
+        "properties": {
+          "studentId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "classId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "lessonId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "score": {
+            "type": "number",
+            "format": "float"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AssignStudentRequest": {
+        "type": "object",
+        "properties": {
+          "studentId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "classId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ClassCreateDto": {
+        "required": [
+          "branch",
+          "grade",
+          "schoolId"
+        ],
+        "type": "object",
+        "properties": {
+          "grade": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "branch": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "schoolId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
       "ClassLesson": {
         "type": "object",
         "properties": {
@@ -382,31 +664,41 @@
           "lesson": {
             "$ref": "#/components/schemas/Lesson"
           },
+          "teacherId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "teacher": {
+            "$ref": "#/components/schemas/User"
+          },
           "notes": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/Note"
             },
             "nullable": true
-          },
-          "teacherClassLessons": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TeacherClassLesson"
-            },
-            "nullable": true
           }
         },
         "additionalProperties": false
       },
-      "ClassLessonDto": {
+      "ClassLessonCreateDto": {
+        "required": [
+          "classRoomId",
+          "lessonId",
+          "teacherId"
+        ],
         "type": "object",
         "properties": {
-          "classId": {
+          "classRoomId": {
             "type": "integer",
             "format": "int32"
           },
           "lessonId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "teacherId": {
             "type": "integer",
             "format": "int32"
           }
@@ -490,6 +782,22 @@
             "type": "string",
             "nullable": true
           },
+          "teacherId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "teacher": {
+            "$ref": "#/components/schemas/User"
+          },
+          "schoolId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "school": {
+            "$ref": "#/components/schemas/School"
+          },
           "classLessons": {
             "type": "array",
             "items": {
@@ -508,6 +816,10 @@
             "nullable": true
           },
           "password": {
+            "type": "string",
+            "nullable": true
+          },
+          "role": {
             "type": "string",
             "nullable": true
           }
@@ -576,6 +888,11 @@
           "phoneNumber": {
             "type": "string",
             "nullable": true
+          },
+          "schoolId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -612,43 +929,15 @@
         },
         "additionalProperties": false
       },
-      "TeacherClassLesson": {
+      "SchoolCreateRequest": {
+        "required": [
+          "name"
+        ],
         "type": "object",
         "properties": {
-          "teacherId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "classRoomId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "lessonId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "teacher": {
-            "$ref": "#/components/schemas/User"
-          },
-          "class": {
-            "$ref": "#/components/schemas/ClassRoom"
-          },
-          "lesson": {
-            "$ref": "#/components/schemas/Lesson"
-          }
-        },
-        "additionalProperties": false
-      },
-      "TeacherClassLessonDto": {
-        "type": "object",
-        "properties": {
-          "teacherId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "classLessonId": {
-            "type": "integer",
-            "format": "int32"
+          "name": {
+            "minLength": 1,
+            "type": "string"
           }
         },
         "additionalProperties": false

@@ -1,0 +1,74 @@
+﻿@page "/student-notes"
+@inject HttpClient Http
+@inject IJSRuntime JSRuntime
+<h3>Notlarım</h3>
+<link href="css/lists.css" rel="stylesheet" />
+
+@if (IsLoading)
+{
+    <p>Yükleniyor...</p>
+}
+else if (Notes.Any())
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Ders</th>
+                
+                <th>Not</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var note in Notes)
+            {
+                <tr>
+                    <td>@note.LessonName</td>
+                 
+                    <td>@note.Score</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Not bulunamadı.</p>
+}
+
+
+@code {
+    private List<StudentNoteDto> Notes = new();
+    private bool IsLoading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadNotes();
+    }
+
+    private async Task LoadNotes()
+    {
+        try
+        {
+            var token = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "authToken");
+            Http.DefaultRequestHeaders.Authorization =
+                new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
+            Notes = await Http.GetFromJsonAsync<List<StudentNoteDto>>("api/students/student-notes") ?? new();
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine("Notlar alınırken hata: " + ex.Message);
+        }
+        finally
+        {
+            IsLoading = false;
+        }
+    }
+
+    public class StudentNoteDto
+    {
+        public string LessonName { get; set; } = "";
+       
+        public float Score { get; set; }
+    }
+}

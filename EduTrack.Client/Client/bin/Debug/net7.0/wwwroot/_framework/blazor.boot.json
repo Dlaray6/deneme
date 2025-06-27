@@ -1,7 +1,7 @@
 {
   "entryAssembly": "EduTrack.Client.Client",
   "resources": {
-    "hash": "sha256-6q44/A/1uRW1zhteXCQcA8Ua2SZJK5rufRnwYQ5htIs=",
+    "hash": "sha256-oFnx5lsalmpUEwJCJm8ZGkUFwczNzTJDJCu5T9Fuo5s=",
     "runtime": {
       "dotnet.js": "sha256-eaJTmow4t8eE7FZMZR5Ja41JMOefGCbIYDTdpclGsac=",
       "dotnet.timezones.blat": "sha256-gbATD5HDsHYtW8vdPYh9iSBY4O5CjvMeCSF5xXWF1xo=",
@@ -32,8 +32,13 @@
       "Microsoft.Extensions.Logging.Abstractions.dll": "sha256-7mzUlhcvGxpAVO4h/Tka7P/8IXF9ZsHkGt0fp5aufkU=",
       "Microsoft.Extensions.Options.dll": "sha256-gcHJrSv1wTqvF9SyWTEKcbiShn4mkgfnm9+tRQr4OqY=",
       "Microsoft.Extensions.Primitives.dll": "sha256-q4ruoDSCjV/QJY9ZkzV6uxvEvZUVrDbyUjU3SSh5SlE=",
+      "Microsoft.IdentityModel.JsonWebTokens.dll": "sha256-3qsp87Uh9jMn/IeyZ1h7Ud+kxmLlylZ5ONJPfHvJVnw=",
+      "Microsoft.IdentityModel.Logging.dll": "sha256-gSKFRAkkC7PLJ0NHC5cAog6q+kJ0gNUPmZpdP0tSO00=",
+      "Microsoft.IdentityModel.Tokens.dll": "sha256-3Yp+FAyqiDW86B69SV/Be1gcDOnEohrCpdRp9dB5fyQ=",
       "Microsoft.JSInterop.dll": "sha256-hqlIaqQ4gtUWzyJ8EZrLluzDjn7Is96W4jGmrqo2zuQ=",
       "Microsoft.JSInterop.WebAssembly.dll": "sha256-EZQhbpEJjf0rGpPFpJek1umJ2lC1RRAYewbxTp/nyek=",
+      "Newtonsoft.Json.dll": "sha256-cs8pHUurDt0IqbB8YXPh560au3q3J/1wRL9jBddRVmE=",
+      "System.IdentityModel.Tokens.Jwt.dll": "sha256-eR2sxvY2IOE9Gx9GVzO0FYn6QUllDoMrN39pNvzNFhQ=",
       "System.IO.Pipelines.dll": "sha256-P/MqD0fCBd5bgTM16JC1QC/Zz7s+CwViyzmDFkBG4/c=",
       "Microsoft.CSharp.dll": "sha256-6V4GfO5zHzzbEf480NtrHxZo3KX5ZAFCJUG6sEqKTp8=",
       "Microsoft.VisualBasic.Core.dll": "sha256-3ypmvZcaGs6rLStwq7m4D+pVXoLIhws2VMHGiwlhlJs=",
@@ -204,11 +209,11 @@
       "netstandard.dll": "sha256-N5CcC3sLzGBesbmeJAp5bwxABN9u7SwkIO5qfFjzoik=",
       "System.Private.CoreLib.dll": "sha256-bJS1DJmhjP7PvegYG+Z8O9EDtRY78HKinA3LUMVLlSQ=",
       "EduTrack.Client.Shared.dll": "sha256-XLgpLAAyIDfcbdQmg/43EcGZLBWSqX/AotK/BvuOkXk=",
-      "EduTrack.Client.Client.dll": "sha256-KCRMI/adC0qpkp3ZRk6wGEavqzFesaTpDjFMh+W7G84="
+      "EduTrack.Client.Client.dll": "sha256-b/RGG8SFveYkdVUy01T1nICY/SVBeCENTuYAIuBLiiA="
     },
     "pdb": {
       "EduTrack.Client.Shared.pdb": "sha256-ChpC4DNAvnstQQV0avALf2SpZ48U9sAwr50i/+Y+dHQ=",
-      "EduTrack.Client.Client.pdb": "sha256-+mlKRxpOEBGinwxEQfo5CWGxCvwOrvIiUjWpCdsEXJs="
+      "EduTrack.Client.Client.pdb": "sha256-zIhhiZWbRbrLK6yG2bPQ/LGz+6W7dw29pCnpuojJA/0="
     },
     "runtimeAssets": {
       "dotnet.wasm": {

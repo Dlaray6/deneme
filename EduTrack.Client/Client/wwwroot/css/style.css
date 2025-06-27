@@ -1,0 +1,62 @@
+﻿/* Sayfa düzeni */
+.auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f8f9fa;
+    padding: 20px;
+}
+
+/* Kart görünümü */
+.auth-card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+/* Başlık alanı */
+.auth-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+    .auth-header h3 {
+        color: #343a40;
+        margin-bottom: 0.5rem;
+    }
+
+    .auth-header p {
+        color: #6c757d;
+    }
+
+/* Form grubu */
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+.btn {
+    margin-top: 1rem;
+}
+
+.alert {
+    margin-top: 1rem;
+    padding: 0.75rem 1.25rem;
+    border-radius: 0.25rem;
+}
+
+.alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+}
+
+.alert-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+}

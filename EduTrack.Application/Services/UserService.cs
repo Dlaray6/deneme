@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Text;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 using EduTrack.Application.Interfaces;
-using EduTrack.Domain;
-using System.Security.Cryptography;
 using EduTrack.Data.Repositories.Interfaces;
+using EduTrack.Domain;
 
 namespace EduTrack.Application.Services
 {
@@ -19,29 +17,15 @@ namespace EduTrack.Application.Services
             _userRepository = userRepository;
         }
 
-        public async Task SaveChangesAsync()
-        {
-            await _userRepository.SaveChangesAsync();
-        }
-
-        public string HashPassword(string password)
-        {
-            using var sha256 = SHA256.Create();
-            var bytes = Encoding.UTF8.GetBytes(password);
-            var hash = sha256.ComputeHash(bytes);
-            return Convert.ToBase64String(hash);
-        }
-
-        // UserService.cs
         public async Task AddUserAsync(User user)
         {
-            user.Password = HashPassword(user.Password);
+      
             await _userRepository.AddUserAsync(user);
-            // SaveChangesAsync() burada TEK SEFER çağrılmalı
         }
-        public async Task<User?> GetUserByTCAsync(string tcNo)
+
+        public async Task<User?> GetUserByTCAsync(string tc)
         {
-            return await _userRepository.GetUserByTcNoAsync(tcNo);
+            return await _userRepository.GetUserByTcNoAsync(tc);
         }
 
         public async Task<IEnumerable<User>> GetUsersByRoleAsync(string role)
@@ -49,12 +33,17 @@ namespace EduTrack.Application.Services
             return await _userRepository.GetUsersByRoleAsync(role);
         }
 
-        public async Task<bool> CheckPasswordAsync(string tcNo, string password)
-        {
-            var user = await GetUserByTCAsync(tcNo);
-            if (user == null) return false;
 
-            return user.Password == HashPassword(password);
+        public async Task<bool> HasAdminForSchoolAsync(int? schoolId)
+        {
+            return await _userRepository.HasAdminForSchoolAsync(schoolId);
         }
+
+        public async Task SaveChangesAsync()
+        {
+            await _userRepository.SaveChangesAsync();
+        }
+
+     
     }
 }

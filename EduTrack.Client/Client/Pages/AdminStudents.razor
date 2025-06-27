@@ -1,0 +1,95 @@
+﻿@page "/admin-students"
+@inject HttpClient Http
+@inject IJSRuntime JSRuntime
+
+<h3>Öğrenci Listesi</h3>
+<link href="css/lists.css" rel="stylesheet" />
+
+@if (IsLoading)
+{
+    <p>Yükleniyor...</p>
+}
+else if (Students is not null && Students.Any())
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Ad</th>
+                <th>Okul Numarası</th>
+                <th>Okul</th>
+                <th>Sınıflar</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var student in Students)
+            {
+                <tr>
+                    <td>@student.Name</td>
+                    <td>@student.SchoolNumber</td>
+                    <td>@student.SchoolName</td>
+                    <td>
+                        @if (student.Classes != null && student.Classes.Any())
+                        {
+                            @string.Join(", ", student.Classes.Select(c => c.ClassName))
+                        }
+                        else
+                        {
+                            <em>Sınıf yok</em>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Öğrenci bulunamadı.</p>
+}
+
+
+@code {
+    private List<StudentDto>? Students;
+    private bool IsLoading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadStudents();
+    }
+
+    private async Task LoadStudents()
+    {
+        try
+        {
+            var token = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "authToken");
+            Http.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
+            Students = await Http.GetFromJsonAsync<List<StudentDto>>("api/AdminStudents/all-students");
+
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine($"Öğrenciler yüklenirken hata oluştu: {ex.Message}");
+        }
+        finally
+        {
+            IsLoading = false;
+        }
+    }
+
+    public class StudentDto
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = "";
+        public string? SchoolNumber { get; set; }
+        public string? SchoolName { get; set; }
+        public List<ClassDto> Classes { get; set; } = new();
+    }
+
+    public class ClassDto
+    {
+        public int Id { get; set; }
+        public string ClassName { get; set; } = "";
+    }
+}
+

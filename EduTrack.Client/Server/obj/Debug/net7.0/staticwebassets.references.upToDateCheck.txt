@@ -1,2 +1,3 @@
-D:\edutrack\EduTrack.Client\Client\obj\Debug\net7.0\staticwebassets.build.json
 D:\EduTrack\EduTrack.Client\Client\obj\Debug\net7.0\staticwebassets.build.json
+D:\edutrack\EduTrack.Client\Client\obj\Debug\net7.0\staticwebassets.build.json
+D:\edutrack\EduTrack.Client\Client\obj\Debug\net7.0\staticwebassets.build.json

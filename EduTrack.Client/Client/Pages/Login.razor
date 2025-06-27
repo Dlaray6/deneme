@@ -1,101 +1,183 @@
 ﻿@page "/login"
+@using System.ComponentModel.DataAnnotations
 @inject HttpClient Http
 @inject NavigationManager Navigation
-@inject IJSRuntime JS
+@inject ILogger<Login> Logger
 
-<h3>Giriş Yap</h3>
+<PageTitle>Giriş Yap - EduTrack</PageTitle>
+<link href="css/layout.css" rel="stylesheet" />
 
-<div class="mb-3">
-    <label for="tcInput" class="form-label">TC Kimlik No</label>
-    <input @bind="tc" id="tcInput" class="form-control" />
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="auth-header">
+            <h3>Giriş Yap</h3>
+            <p>Eğitim takip sistemine erişmek için hesabınıza giriş yapın</p>
+        </div>
+
+        <EditForm Model="@LoginData" OnValidSubmit="@HandleLogin" class="auth-form">
+            <DataAnnotationsValidator />
+            <ValidationSummary class="text-danger" />
+
+            <!-- TC Kimlik No -->
+            <div class="form-group">
+                <label for="tcNo">TC Kimlik No</label>
+                <InputText id="tcNo" @bind-Value="LoginData.TcNo"
+                           class="form-control" placeholder="11 haneli giriniz" />
+                <ValidationMessage For="@(() => LoginData.TcNo)" />
+            </div>
+
+            <!-- Şifre -->
+            <div class="form-group">
+                <label for="password">Şifre</label>
+                <InputText id="password" type="password" @bind-Value="LoginData.Password"
+                           class="form-control" />
+                <ValidationMessage For="@(() => LoginData.Password)" />
+            </div>
+
+            <!-- Rol Seçimi -->
+            <div class="form-group">
+                <label for="role">Rol Seçiniz</label>
+                <InputSelect id="role" @bind-Value="LoginData.Role" class="form-control">
+                    <option value="">Seçiniz...</option>
+                    <option value="Student">Öğrenci</option>
+                    <option value="Teacher">Öğretmen</option>
+                    <option value="Idare">İdare</option>
+                </InputSelect>
+                <ValidationMessage For="@(() => LoginData.Role)" />
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100" disabled="@IsLoading">
+                @(IsLoading ? "Giriş Yapılıyor..." : "Giriş Yap")
+            </button>
+        </EditForm>
+
+        <div class="auth-footer">
+            Hesabınız yok mu? <a href="/register">Kayıt Olun</a>
+        </div>
+
+        @if (ShowAlert)
+        {
+            <div class="alert @AlertCssClass">
+                @AlertMessage
+            </div>
+        }
+    </div>
 </div>
-
-<div class="mb-3">
-    <label for="passwordInput" class="form-label">Şifre</label>
-    <input @bind="password" type="password" id="passwordInput" class="form-control" />
-</div>
-
-<button class="btn btn-primary" @onclick="DoLogin">Giriş Yap</button>
-
-@if (!string.IsNullOrEmpty(errorMessage))
-{
-    <div class="alert alert-danger mt-3">@errorMessage</div>
-}
 
 @code {
-    private string tc = "";
-    private string password = "";
-    private string errorMessage = "";
-
-    private async Task DoLogin()
+    private LoginModel LoginData = new();
+    private bool IsLoading = false;
+    private bool ShowAlert = false;
+    private string AlertMessage = "";
+    private string AlertCssClass => IsSuccess ? "alert-success" : "alert-danger";
+    private bool IsSuccess = false;
+    @inject IJSRuntime JSRuntime
+    public class LoginResponse
     {
-        errorMessage = "";
+        public string Token { get; set; } = "";
+        public UserDto User { get; set; } = new();
+    }
 
-        var loginDto = new { TcNo = tc, Password = password };
+    public class UserDto
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = "";
+        public string Role { get; set; } = "";
+    }
+
+
+    private async Task HandleLogin()
+    {
         try
         {
-            var response = await Http.PostAsJsonAsync("api/auth/login", loginDto);
+            IsLoading = true;
+            ShowAlert = false;
+
+            var loginRequest = new LoginRequest
+            {
+                TcNo = LoginData.TcNo,
+                Password = LoginData.Password,
+                Role = LoginData.Role
+            };
+
+            var response = await Http.PostAsJsonAsync("api/auth/login", loginRequest);
+
             if (response.IsSuccessStatusCode)
             {
-                var result = await response.Content.ReadFromJsonAsync<LoginResponse>();
-                if (result != null && !string.IsNullOrEmpty(result.Token))
+                var loginResult = await response.Content.ReadFromJsonAsync<LoginResponse>();
+                if (loginResult != null)
                 {
-                    await JS.InvokeVoidAsync("localStorage.setItem", "authToken", result.Token);
+                    await JSRuntime.InvokeVoidAsync("localStorage.setItem", "authToken", loginResult.Token);
 
-                    var role = ParseJwtRole(result.Token);
-                    if (role == "Idare")
-                        Navigation.NavigateTo("/admin");
-                    else if (role == "Teacher")
-                        Navigation.NavigateTo("/teacher");
-                    else if (role == "Student")
-                        Navigation.NavigateTo("/student");
-                    else
-                        Navigation.NavigateTo("/");
-                }
-                else
-                {
-                    errorMessage = "Token alınamadı.";
+                    IsSuccess = true;
+                    AlertMessage = "Giriş başarılı! Yönlendiriliyorsunuz...";
+                    ShowAlert = true;
+
+                    await Task.Delay(1500);
+
+                    if (LoginData.Role == "Student")
+                        Navigation.NavigateTo("/student-notes");
+                    else if (LoginData.Role == "Teacher")
+                        Navigation.NavigateTo("/teacher-add-note");
+                    else if (LoginData.Role == "Idare")
+                        Navigation.NavigateTo("/admin-dashboard");
                 }
             }
             else
             {
-                errorMessage = "Giriş başarısız. Bilgileri kontrol edin.";
+                var errorContent = await response.Content.ReadAsStringAsync();
+                Logger.LogError($"Login error: {response.StatusCode} - {errorContent}");
+
+                try
+                {
+                    var errorObj = System.Text.Json.JsonSerializer.Deserialize<ErrorResponse>(errorContent);
+                    AlertMessage = errorObj?.message ?? $"Giriş hatası: {response.StatusCode}";
+                }
+                catch
+                {
+                    AlertMessage = $"Giriş hatası: {response.StatusCode} - {errorContent}";
+                }
+
+                IsSuccess = false;
+                ShowAlert = true;
             }
         }
         catch (Exception ex)
         {
-            errorMessage = "Hata oluştu: " + ex.Message;
+            AlertMessage = $"Bağlantı hatası: {ex.Message}";
+            IsSuccess = false;
+            ShowAlert = true;
+            Logger.LogError(ex, "Login exception");
         }
-    }
-
-    private string ParseJwtRole(string token)
-    {
-        try
+        finally
         {
-            var payload = token.Split('.')[1];
-            var json = System.Text.Encoding.UTF8.GetString(ParseBase64WithoutPadding(payload));
-            using var doc = System.Text.Json.JsonDocument.Parse(json);
-            if (doc.RootElement.TryGetProperty("role", out var roleProp))
-            {
-                return roleProp.GetString() ?? "";
-            }
+            IsLoading = false;
         }
-        catch { }
-        return "";
     }
 
-    private byte[] ParseBase64WithoutPadding(string base64)
+
+    public class LoginModel
     {
-        switch (base64.Length % 4)
-        {
-            case 2: base64 += "=="; break;
-            case 3: base64 += "="; break;
-        }
-        return Convert.FromBase64String(base64);
+        [Required(ErrorMessage = "TC Kimlik No gerekli")]
+        [StringLength(11, MinimumLength = 11, ErrorMessage = "TC Kimlik No 11 haneli olmalı")]
+        public string TcNo { get; set; } = "";
+
+        [Required(ErrorMessage = "Şifre gerekli")]
+        public string Password { get; set; } = "";
+
+        [Required(ErrorMessage = "Rol seçimi gerekli")]
+        public string Role { get; set; } = "";
     }
 
-    private class LoginResponse
+    public class LoginRequest
     {
-        public string Token { get; set; } = "";
+        public string TcNo { get; set; } = "";
+        public string Password { get; set; } = "";
+        public string Role { get; set; } = "";
+    }
+
+    public class ErrorResponse
+    {
+        public string message { get; set; } = "";
     }
 }

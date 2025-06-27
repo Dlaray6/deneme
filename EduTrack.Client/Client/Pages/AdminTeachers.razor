@@ -1,0 +1,148 @@
+﻿@page "/admin-teachers"
+@inject IJSRuntime JSRuntime
+@using System.Net.Http.Json
+@inject HttpClient Http
+@using System.IdentityModel.Tokens.Jwt
+@using System.Security.Claims
+
+
+<h3>Öğretmenler ve Dersleri</h3>
+<link href="css/lists.css" rel="stylesheet" />
+
+@if (IsLoading)
+{
+    <p>Yükleniyor...</p>
+}
+else if (Teachers != null && Teachers.Any())
+{
+    @foreach (var teacher in Teachers)
+    {
+        <div class="card" style="margin-bottom:20px;">
+            <div class="card-header">
+                @teacher.Name
+                <button class="btn btn-sm btn-primary" @onclick="() => LoadTeacherDetails(teacher.Id)">Detay</button>
+            </div>
+            <div class="card-body">
+                @if (teacher.ClassesWithLessons != null && teacher.ClassesWithLessons.Any())
+                {
+                    <ul>
+                        @foreach (var cl in teacher.ClassesWithLessons)
+                        {
+                            <li>
+                                @if (!string.IsNullOrEmpty(cl.ClassName))
+                                {
+                                    <strong>@cl.ClassName</strong>
+                                }
+                                <ul>
+                                    @foreach (var lesson in cl.Lessons)
+                                    {
+                                        <li>@lesson</li>
+                                    }
+                                </ul>
+                            </li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <p><em>Ders bulunamadı.</em></p>
+                }
+
+
+            </div>
+
+        </div>
+    }
+}
+else
+{
+    <p>Öğretmen bulunamadı.</p>
+}
+
+@code {
+    private List<TeacherDto>? Teachers;
+    private bool IsLoading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadTeachers();
+    }
+
+    private async Task LoadTeachers()
+    {
+        try
+        {
+            var token = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "authToken");
+            Http.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
+            // Token'dan schoolId'yi çözümle
+            var handler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
+            var jwtToken = handler.ReadJwtToken(token);
+            var schoolIdClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == "SchoolId")?.Value;
+
+            if (string.IsNullOrEmpty(schoolIdClaim))
+            {
+                Console.Error.WriteLine("SchoolId token'da bulunamadı.");
+                return;
+            }
+
+            var schoolId = int.Parse(schoolIdClaim);
+            Teachers = await Http.GetFromJsonAsync<List<TeacherDto>>($"api/AdminTeachers/all-teachers?schoolId={schoolId}");
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine($"Öğretmenler yüklenirken hata oluştu: {ex.Message}");
+        }
+        finally
+        {
+            IsLoading = false;
+        }
+    }
+
+    private async Task LoadTeacherDetails(int teacherId)
+    {
+        try
+        {
+            var token = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "authToken");
+            Http.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
+            var details = await Http.GetFromJsonAsync<TeacherDetailsDto>($"api/AdminTeachers/teacher-classes-lessons?teacherId={teacherId}");
+
+            if (details != null && Teachers != null)
+            {
+                var teacher = Teachers.FirstOrDefault(t => t.Id == teacherId);
+                if (teacher != null)
+                {
+                    teacher.ClassesWithLessons = details.ClassesWithLessons;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine($"Detaylar yüklenirken hata oluştu: {ex.Message}");
+        }
+    }
+
+
+    public class TeacherDto
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = "";
+
+        public List<ClassWithLessonsDto>? ClassesWithLessons { get; set; }  // Detaylar gelince doldurulacak
+    }
+
+    public class TeacherDetailsDto
+    {
+        public int TeacherId { get; set; }
+        public string TeacherName { get; set; } = "";
+        public List<ClassWithLessonsDto> ClassesWithLessons { get; set; } = new();
+    }
+
+    public class ClassWithLessonsDto
+    {
+        public string ClassName { get; set; } = "";
+        public List<string> Lessons { get; set; } = new();  // ✅ "Lesson" değil, "Lessons" olacak
+    }
+
+}

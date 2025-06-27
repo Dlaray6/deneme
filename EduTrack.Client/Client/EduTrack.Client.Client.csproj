@@ -8,8 +8,14 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Content Remove="Pages\AdminSchools.razor" />
+	  <Content Remove="wwwroot\css\style.css" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.19" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.19" PrivateAssets="all" />
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.7.0" />
 		<PackageReference Include="System.Net.Http.Json" Version="7.0.1" />
 	</ItemGroup>
 
@@ -22,3 +28,4 @@
 	</ItemGroup>
 
 </Project>
+

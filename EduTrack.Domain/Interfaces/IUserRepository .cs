@@ -17,6 +17,7 @@ namespace EduTrack.Data.Repositories.Interfaces
         Task<User?> GetUserByTcNoAsync(string tcNo);
         Task<IEnumerable<User>> GetUsersByRoleAsync(string role);
         Task SaveChangesAsync();
+        Task<bool> HasAdminForSchoolAsync(int? schoolId);
     }
 }
 

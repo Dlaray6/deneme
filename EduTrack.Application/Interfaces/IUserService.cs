@@ -15,13 +15,12 @@ namespace EduTrack.Application.Interfaces
         // Rolüne göre kullanıcıları listeler (Örn: "Student", "Teacher", "Admin")
         Task<IEnumerable<User>> GetUsersByRoleAsync(string role);
 
-        // Kullanıcı şifresini doğrular (true/false döner)
-        Task<bool> CheckPasswordAsync(string tc, string password);
+        Task<bool> HasAdminForSchoolAsync(int? schoolId);
+
 
         // Veritabanındaki değişiklikleri kaydeder (SaveChangesAsync)
         Task SaveChangesAsync();
 
-        // Şifreyi hash'ler ve güvenli hale getirir
-        string HashPassword(string password);
+        
     }
 }

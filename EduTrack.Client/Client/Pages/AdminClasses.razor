@@ -1,0 +1,161 @@
+﻿@page "/admin-classes"
+@inject HttpClient Http
+@inject NavigationManager Navigation
+@inject ILogger<AdminClasses> Logger
+@inject IJSRuntime JSRuntime
+
+<PageTitle>Sınıf Yönetimi - EduTrack</PageTitle>
+<link href="css/layout.css" rel="stylesheet" />
+
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="auth-header">
+            <h3>Sınıf Yönetimi</h3>
+            <p>Yeni sınıf ekleyin</p>
+        </div>
+
+        <!-- Grade -->
+        <div class="form-group">
+            <label>Sınıf Seviyesi (Grade):</label>
+            <InputText @bind-Value="Grade" class="form-control" placeholder="Örn: 5" />
+        </div>
+
+        <!-- Branch -->
+        <div class="form-group">
+            <label>Şube (Branch):</label>
+            <InputText @bind-Value="Branch" class="form-control" placeholder="Örn: A" />
+        </div>
+
+        <button @onclick="AddClass" class="btn btn-primary w-100" disabled="@IsLoading">
+            @(IsLoading ? "Ekleniyor..." : "Sınıf Ekle")
+        </button>
+
+        @if (ShowAlert)
+        {
+            <div class="alert @AlertCssClass mt-2">
+                @AlertMessage
+            </div>
+        }
+
+        <button class="btn btn-secondary w-100 mt-3" @onclick="@(() => Navigation.NavigateTo("/admin-dashboard"))">
+            ⬅️ İdare Paneline Dön
+        </button>
+    </div>
+</div>
+
+@code {
+    private string Grade = "";
+    private string Branch = "";
+    private bool IsLoading = false;
+    private bool ShowAlert = false;
+    private string AlertMessage = "";
+    private bool IsSuccess = false;
+    private string AlertCssClass => IsSuccess ? "alert-success" : "alert-danger";
+    private int? SchoolIdFromToken = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadSchoolIdFromToken();
+    }
+
+    private async Task LoadSchoolIdFromToken()
+    {
+        try
+        {
+            var token = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "authToken");
+
+            if (!string.IsNullOrEmpty(token))
+            {
+                var payload = ParseJwt(token);
+                if (payload.TryGetValue("SchoolId", out var schoolIdStr) && int.TryParse(schoolIdStr, out var schoolId))
+                {
+                    SchoolIdFromToken = schoolId;
+                }
+                else
+                {
+                    AlertMessage = "SchoolId bulunamadı, giriş yapmış mısınız?";
+                    ShowAlert = true;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Token çözümleme hatası");
+        }
+    }
+
+    private async Task AddClass()
+    {
+        if (string.IsNullOrWhiteSpace(Grade) || string.IsNullOrWhiteSpace(Branch) || SchoolIdFromToken == null)
+        {
+            AlertMessage = "Lütfen tüm alanları doldurun.";
+            IsSuccess = false;
+            ShowAlert = true;
+            return;
+        }
+
+        try
+        {
+            IsLoading = true;
+            ShowAlert = false;
+
+            var token = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "authToken");
+            Http.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
+            var newClass = new
+            {
+                Grade = Grade,
+                Branch = Branch,
+                SchoolId = SchoolIdFromToken
+            };
+
+            var response = await Http.PostAsJsonAsync("api/classes", newClass);
+
+            if (response.IsSuccessStatusCode)
+            {
+                AlertMessage = "Sınıf başarıyla eklendi!";
+                IsSuccess = true;
+                Grade = "";
+                Branch = "";
+            }
+            else
+            {
+                var errorContent = await response.Content.ReadAsStringAsync();
+                AlertMessage = $"Hata: {errorContent}";
+                IsSuccess = false;
+            }
+
+            ShowAlert = true;
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Sınıf eklenirken hata oluştu.");
+            AlertMessage = $"Hata: {ex.Message}";
+            IsSuccess = false;
+            ShowAlert = true;
+        }
+        finally
+        {
+            IsLoading = false;
+        }
+    }
+
+    private Dictionary<string, string> ParseJwt(string token)
+    {
+        var parts = token.Split('.');
+        if (parts.Length != 3)
+            return new Dictionary<string, string>();
+
+        var payload = parts[1];
+        var json = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(
+            System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(PadBase64(payload)))
+        );
+
+        return json?.ToDictionary(k => k.Key, v => v.Value?.ToString() ?? "") ?? new Dictionary<string, string>();
+    }
+
+    private string PadBase64(string base64)
+    {
+        return base64.PadRight(base64.Length + (4 - base64.Length % 4) % 4, '=');
+    }
+}

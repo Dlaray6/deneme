@@ -1,60 +1,74 @@
-﻿using EduTrack.Application.Interfaces;
+﻿using EduTrack.Application.DTOs;
+using EduTrack.Data;
 using EduTrack.Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
-namespace EduTrack.API.Controllers
+[ApiController]
+[Route("api/[controller]")]
+[Authorize(Roles = "Idare")]
+public class ClassesController : ControllerBase
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    [Authorize] // Giriş yapılmadan hiçbir şey erişilmesin
-    public class ClassController : ControllerBase
+    private readonly EduTrackDbContext _context;
+
+    public ClassesController(EduTrackDbContext context)
     {
-        private readonly IClassService _classService;
-
-        public ClassController(IClassService classService)
-        {
-            _classService = classService;
-        }
-
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
-        {
-            var classRoom = await _classService.GetClassByIdAsync(id);
-            if (classRoom == null)
-                return NotFound("Sınıf bulunamadı.");
-            return Ok(classRoom);
-        }
-
-        [HttpGet("school/{schoolId}")]
-        public async Task<IActionResult> GetAllBySchool(int schoolId)
-        {
-            var classes = await _classService.GetClassesBySchoolAsync(schoolId);
-            return Ok(classes);
-        }
-
-        [Authorize(Roles = "Admin")]
-        [HttpPost("add")]
-        public async Task<IActionResult> AddClass([FromBody] ClassRoom newClass)
-        {
-            await _classService.AddClassAsync(newClass);
-            return Ok("Sınıf başarıyla eklendi.");
-        }
-
-        [Authorize(Roles = "Admin")]
-        [HttpPost("assign")]
-        public async Task<IActionResult> AssignUserToClass([FromQuery] int classId, [FromQuery] int userId)
-        {
-            await _classService.AssignUserToClassAsync(classId, userId);
-            return Ok("Kullanıcı sınıfa atandı.");
-        }
-
-        [Authorize(Roles = "Admin,Teacher")]
-        [HttpGet("users/{classId}")]
-        public async Task<IActionResult> GetUsersInClass(int classId)
-        {
-            var users = await _classService.GetUsersInClassAsync(classId);
-            return Ok(users);
-        }
+        _context = context;
     }
+
+    [HttpPost]
+    public async Task<IActionResult> CreateClass([FromBody] ClassCreateDto dto)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        var school = await _context.Schools.FindAsync(dto.SchoolId);
+        if (school == null)
+            return NotFound("Okul bulunamadı.");
+
+        // ⚠️ Duplicate Kontrolü: Aynı okulda, aynı Grade ve Branch var mı?
+        var existingClass = await _context.Classes
+            .FirstOrDefaultAsync(c => c.SchoolId == dto.SchoolId && c.Grade == dto.Grade && c.Branch == dto.Branch);
+
+        if (existingClass != null)
+            return Conflict($"Bu okulda zaten {dto.Grade}-{dto.Branch} sınıfı var.");
+
+        var newClass = new ClassRoom
+        {
+            Grade = dto.Grade,
+            Branch = dto.Branch,
+            SchoolId = dto.SchoolId
+        };
+
+        _context.Classes.Add(newClass);
+        await _context.SaveChangesAsync();
+
+        return Ok(new { message = "Sınıf başarıyla eklendi.", classId = newClass.Id });
+    }
+
+
+    [HttpGet]
+    public async Task<IActionResult> GetClasses([FromQuery] int? schoolId)
+    {
+        var query = _context.Classes.AsQueryable();
+
+        if (schoolId.HasValue)
+        {
+            query = query.Where(c => c.SchoolId == schoolId.Value);
+        }
+
+        var classes = await query
+            .Select(c => new {
+                c.Id,
+                c.Grade,
+                c.Branch,
+                c.SchoolId
+            })
+            .ToListAsync();
+
+        return Ok(classes);
+    }
+
+
 }
